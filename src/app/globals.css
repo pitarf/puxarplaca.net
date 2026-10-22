@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Paleta Azul Oficial e Cores de Apoio SaaS */
+  --primary-dark: #135A80;       /* Azul Escuro: Títulos, cabeçalhos, contraste forte */
+  --primary: #1F8FCC;            /* Azul Principal: Botões primários, CTAs, ações */
+  --primary-vibrant: #26B3FF;    /* Azul Vibrante: Destaques, indicadores visuais */
+  --primary-light: #73CEFF;      /* Azul Claro: Acentos suaves, detalhes decorativos */
+  --primary-soft-bg: #EFF8FD;    /* Fundo Azul Suave */
+  --text-primary: #172B3A;       /* Texto Principal */
+  --text-secondary: #667A85;     /* Cinza Azulado: Textos secundários, descrições */
+  --border-light: #E1EAF0;       /* Bordas */
+  --bg-main: #FFFFFF;            /* Fundo Principal */
+  --bg-alt: #F7FAFC;             /* Fundo Alternativo */
+
+  /* Cores Base do Sistema (Light Mode SaaS) */
+  --background: #FFFFFF;
+  --foreground: #172B3A;
+
+  /* Cards e Popovers */
+  --card: #FFFFFF;
+  --card-foreground: #172B3A;
+  --popover: #FFFFFF;
+  --popover-foreground: #172B3A;
+
+  --primary-foreground: #FFFFFF;
+  
+  --secondary: #EFF8FD;
+  --secondary-foreground: #135A80;
+
+  /* Muteds e Bordas */
+  --muted: #F7FAFC;
+  --muted-foreground: #667A85;
+  
+  --accent: #EFF8FD;
+  --accent-foreground: #1F8FCC;
+
+  --border: #E1EAF0;
+  --input: #E1EAF0;
+  --ring: #1F8FCC;
+
+  /* Mensagens de Erro/Sucesso */
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --success: #10B981;
+  --success-foreground: #FFFFFF;
+
+  --radius: 0.75rem;
+}
+
+.dark {
+  /* Cores Premium Dark Mode com harmonia azul marinho profundo */
+  --background: #0B1721;
+  --foreground: #F0F6FA;
+
+  --card: #0F202E;
+  --card-foreground: #F0F6FA;
+  --popover: #0F202E;
+  --popover-foreground: #F0F6FA;
+
+  --primary: #26B3FF;
+  --primary-foreground: #0B1721;
+  
+  --secondary: #132D40;
+  --secondary-foreground: #73CEFF;
+
+  --muted: #132D40;
+  --muted-foreground: #8FA5B3;
+  
+  --accent: #173850;
+  --accent-foreground: #73CEFF;
+
+  --border: #1B3950;
+  --input: #1B3950;
+  --ring: #26B3FF;
+
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+  --success: #10B981;
+  --success-foreground: #FFFFFF;
+}
+
+@theme inline {
+  --color-primary-dark: #135A80;
+  --color-primary-main: #1F8FCC;
+  --color-primary-vibrant: #26B3FF;
+  --color-primary-light: #73CEFF;
+  --color-primary-soft: #EFF8FD;
+  --color-text-main: #172B3A;
+  --color-text-muted: #667A85;
+  --color-border-custom: #E1EAF0;
+  --color-bg-alt: #F7FAFC;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased transition-colors duration-300;
+  }
+  html.dark body {
+    /* Fundo premium com gradiente sutil apenas no modo escuro */
+    background-image: radial-gradient(circle at top right, rgba(30, 27, 75, 0.3), transparent 40%),
+                      radial-gradient(circle at bottom left, rgba(15, 23, 42, 0.8), transparent 40%);
+    background-attachment: fixed;
+  }
+}
+
+/* Efeito Glassmorphism Premium */
+.glass-panel {
+  @apply bg-card/40 backdrop-blur-md border border-white/10 shadow-xl;
+}
+
+/* Botões modernos com a nova paleta azul oficial */
+.btn-premium {
+  @apply bg-[#1F8FCC] hover:bg-[#135A80] text-white font-semibold py-2.5 px-5 rounded-xl shadow-[0_4px_14px_rgba(31,143,204,0.3)] hover:shadow-[0_6px_20px_rgba(19,90,128,0.4)] transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0;
+}
+
+/* Placa mercosul styling */
+.placa-badge {
+  @apply font-mono font-black tracking-widest uppercase px-3 py-1 bg-white text-[#172B3A] border-2 border-[#135A80] rounded-md shadow-sm inline-flex items-center;
+}
+
+/* Classes de layout utilitárias */
+.container-premium {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Animação de entrada suave para modais */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Barra de progresso da simulação de consulta */
+@keyframes progress {
+  0%   { width: 0%; }
+  60%  { width: 85%; }
+  100% { width: 95%; }
+}
+.animate-progress {
+  animation: progress 2.8s ease-out forwards;
+}
+
+/* ==========================================================================
+   CARROSSEL VERTICAL COM STACKING CARDS (STICKY SCROLL)
+   ========================================================================== */
+html, body {
+  overflow-x: clip;
+  max-width: 100%;
+  width: 100%;
+}
+
+.services-sticky-header {
+  position: sticky;
+  top: 64px;
+  z-index: 40;
+  background-color: rgba(247, 250, 252, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(225, 234, 240, 0.8);
+}
+
+@media (min-width: 768px) {
+  .services-sticky-header {
+    top: 72px;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.stacking-container {
+  position: relative;
+  padding-bottom: 0 !important;
+}
+
+.stack-card {
+  transform-origin: top center;
+  will-change: transform, filter;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+  margin-bottom: 24px !important;
+}
+
+.stack-card:last-child {
+  margin-bottom: 0 !important;
+}
+
+ 
+
