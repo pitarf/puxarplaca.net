@@ -1,5 +1,30 @@
 # Roadmap de Desenvolvimento - PuxarPlaca (Splits de Entrega)
 
+## SPLIT 12: Renomeação Integral de Branding para PuxarPlaca (✅ CONCLUÍDO)
+*Este split foca na alteração de todas as ocorrências de "Detetive Buscas" / "DetetiveBuscas" para a nova marca "PuxarPlaca".*
+- [x] **Substituição no Código-Fonte:**
+  - Sidebar do Dashboard Desktop e Drawer Mobile (`Puxar<span className="text-primary">Placa</span>`).
+  - Link de Suporte WhatsApp oficial (`suporte no PuxarPlaca`).
+  - Metadados dinâmicos e fallbacks em `layout.tsx`, `robots.ts` e `sitemap.ts`.
+  - Páginas institucionais (`/sobre`, `/contato`, `/suporte`, `/termos`, `/politica-de-privacidade`, `/protecao-de-dados`).
+  - Rodapé de autenticação em `admin-login/page.tsx` e remetente de e-mails transacionais em `auth.ts`.
+  - Fallbacks de esquemas estruturados Schema.org (Organization / Service / BlogPosting).
+- [x] **Sincronização no Banco de Dados (Neon Cloud):**
+  - Atualização da tabela `SystemSetting` (`siteTitle`, `siteDescription`, `companyName`, `companyEmail`).
+  - Atualização de títulos e conteúdos de páginas armazenadas na tabela `Page`.
+- [x] **Validação:** Compilação 100% aprovada no Next.js 16 (`npm run build`) sem resquícios da marca legada no diretório `src/`.
+
+## SPLIT 11: Deploy em Produção na VPS Hostinger (✅ CONCLUÍDO)
+*Este split foca no provisionamento do servidor Ubuntu 24.04, Docker CE, Nginx reverso e deploy conteinerizado da aplicação puxarplaca.net.*
+- [x] **Repositório GitHub:** Criação e sincronização do repositório oficial `https://github.com/pitarf/puxarplaca.net.git` na branch `main`.
+- [x] **Provisionamento VPS Hostinger (2.25.75.243):**
+  - Chave SSH autorizada configurada para acesso administrativo seguro.
+  - Instalação e ativação do Docker Engine v29 + Docker Compose Plugin.
+  - Configuração do Firewall UFW (portas 22, 80 e 443 autorizadas).
+- [x] **Proxy Reverso Nginx:** Configuração de vhost com cabeçalhos WebSocket, encaminhamento de IP real e suporte a grandes uploads (50MB).
+- [x] **Certificado SSL / HTTPS (Let's Encrypt):** Emissão e ativação de certificado SSL via Certbot para `puxarplaca.net` e `www.puxarplaca.net` com redirecionamento forçado de HTTP para HTTPS (301) e renovação automática configurada.
+- [x] **Deploy Docker Standalone:** Imagem Next.js 16 compilada com sucesso no container (`puxarplacanet-app`), conectada ao banco Neon Cloud com resposta HTTP 200 via porta 80/443 e proxy Nginx.
+
 ## SPLIT 10: Redesign da Plataforma e Foco em Consulta de Placas (✅ CONCLUÍDO)
 *Este split foca no reposicionamento estratégico da Home como plataforma de checagem veicular e aplicação da nova paleta azul oficial.*
 - [x] **Identidade Visual e Design Tokens:** Centralização das cores oficiais nos tokens Tailwind (`#135A80`, `#1F8FCC`, `#26B3FF`, `#73CEFF`, `#667A85`) e cores de apoio SaaS.

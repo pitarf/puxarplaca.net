@@ -32,9 +32,9 @@ export async function generateMetadata(): Promise<Metadata> {
   try {
     const settings = await prisma.systemSetting.findFirst();
 
-    const title = settings?.siteTitle || "Detetive Buscas - Investigação de Dados";
-    const description = settings?.siteDescription || "Plataforma profissional para consultas de CPF, CNPJ, Veículos e muito mais.";
-    const keywords = settings?.siteKeywords || "consultas, cpf, cnpj, veículos, investigação";
+    const title = settings?.siteTitle || "PuxarPlaca - Consulta Veicular e Dados Cadastrais";
+    const description = settings?.siteDescription || "Plataforma profissional para consultas veiculares pela placa, CPF, CNPJ e histórico.";
+    const keywords = settings?.siteKeywords || "consultas, placa, veículos, detran, senatran, cpf, cnpj";
     const faviconUrl = settings?.faviconUrl || "/favicon.ico";
 
     return {
@@ -59,8 +59,8 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch {
     // Fallback caso o banco não esteja acessível ainda
     return {
-      title: "Detetive Buscas - Investigação de Dados",
-      description: "Plataforma profissional para consultas de dados.",
+      title: "PuxarPlaca - Consulta Veicular e Dados Cadastrais",
+      description: "Plataforma profissional para consultas de veículos pela placa e dados cadastrais.",
     };
   }
 }

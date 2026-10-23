@@ -11,8 +11,8 @@ async function main() {
     update: {},
     create: {
       id: 'default',
-      siteTitle: 'ConsultaALL - Inteligência em Dados',
-      siteDescription: 'A plataforma mais completa para consulta de dados e informações.',
+      siteTitle: 'PuxarPlaca - Consultas Veiculares e Cadastrais Online',
+      siteDescription: 'Plataforma profissional para consultas veiculares pela placa, CPF, CNPJ e débitos.',
       supportWhatsapp: '5511999999999',
     },
   });

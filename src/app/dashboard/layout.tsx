@@ -53,7 +53,7 @@ export default async function DashboardLayout({
 
   const settings = await prisma.systemSetting.findFirst();
   const whatsappNumber = (settings?.supportWhatsapp || "5511999999999").replace(/\D/g, '');
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=Ol%C3%A1%2C%20gostaria%20de%20suporte%20no%20DetetiveBuscas`;
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=Ol%C3%A1%2C%20gostaria%20de%20suporte%20no%20PuxarPlaca`;
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -71,7 +71,7 @@ export default async function DashboardLayout({
               <Database className="text-primary w-6 h-6" />
             )}
             <span className="text-lg font-bold tracking-tight text-white whitespace-nowrap">
-              Detetive<span className="text-primary">Buscas</span>
+              Puxar<span className="text-primary">Placa</span>
             </span>
           </Link>
         </div>

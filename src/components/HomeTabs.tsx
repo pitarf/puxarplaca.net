@@ -190,7 +190,7 @@ export default function HomeTabs() {
                 <span className="w-3 h-3 rounded-full bg-amber-500" />
                 <span className="w-3 h-3 rounded-full bg-emerald-500" />
               </div>
-              <span className="text-xs text-slate-500 font-medium">detetive_buscas_api_v3.json</span>
+              <span className="text-xs text-slate-500 font-medium">puxarplaca_api_v3.json</span>
             </div>
 
             {/* Conteúdo do Mockup */}

@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "🚀 Iniciando atualizacao da VPS - ConsultaALL..."
+echo "🚀 Iniciando atualizacao da VPS - PuxarPlaca..."
 
 echo "📦 1/4 - Puxando novos arquivos do GitHub..."
 git pull origin main

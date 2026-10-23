@@ -2,6 +2,38 @@
 
 Todas as mudanças notáveis para este projeto serão documentadas neste arquivo.
 
+## [1.3.0] - 2026-10-23
+### Modificado & Identidade Visual (Renomeação Integral de Branding para PuxarPlaca)
+- **Eliminação Completa da Marca Legada:**
+  - Substituição de todas as ocorrências de "Detetive Buscas" e "DetetiveBuscas" no frontend e backend por **PuxarPlaca**.
+  - Logotipos tipográficos atualizados na Sidebar Desktop e no Menu Gaveta Mobile (`Puxar<span className="text-primary">Placa</span>`).
+  - Atualização do link de suporte oficial via WhatsApp para *"suporte no PuxarPlaca"*.
+  - Rodapés institucionais e tela de login administrativo (`admin-login/page.tsx`) com copyright atualizado.
+  - Atualização do remetente transacional em `src/app/actions/auth.ts` para `PuxarPlaca`.
+  - Atualização dos metadados de SEO padrão, canonical URLs, robots.txt, sitemap.xml e marcações Schema.org (`Organization`, `Service`, `BlogPosting`).
+- **Banco de Dados (Neon Cloud):**
+  - Configuração oficial do `SystemSetting` atualizada para:
+    - `siteTitle`: *"PuxarPlaca - Consultas Veiculares e Cadastrais Online"*
+    - `siteDescription`: *"Plataforma profissional para consultas veiculares pela placa, CPF, CNPJ, histórico de proprietários e débitos."*
+    - `companyName`: *"PUXARPLACA TECNOLOGIA LTDA"*
+    - `companyEmail`: *"contato@puxarplaca.net"*
+  - Conteúdo e títulos das páginas institucionais na tabela `Page` sanitizados e atualizados.
+
+## [1.2.0] - 2026-10-22
+### Adicionado & Infraestrutura (Deploy em Produção na VPS Hostinger)
+- **Repositório GitHub & CI/CD:** Sincronização e envio completo do código-fonte para o repositório oficial [puxarplaca.net](https://github.com/pitarf/puxarplaca.net.git) na branch `main`.
+- **Provisionamento da VPS Ubuntu 24.04 (2.25.75.243):**
+  - Chave SSH autorizada e autenticação segura configuradas.
+  - Instalação e habilitação do Docker CE v29.9.2 e Docker Compose Plugin.
+  - Configuração do Firewall UFW (portas 22, 80 e 443 autorizadas).
+- **Proxy Reverso Nginx & Certificado SSL (HTTPS):**
+  - Configuração de vhost com roteamento interno para o container Next.js na porta 3000.
+  - Emissão de certificado SSL gratuito via Let's Encrypt / Certbot para `puxarplaca.net` e `www.puxarplaca.net`.
+  - Redirecionamento automático e forçado de HTTP para HTTPS (301) e timer de renovação automática habilitado no systemd.
+- **Deploy Conteinerizado:**
+  - Build standalone do Next.js 16 compilado com sucesso dentro do container Docker (`puxarplacanet-app`).
+  - Aplicação ativa, conectada ao banco Neon Cloud e respondendo HTTP 200 diretamente via HTTPS (`https://puxarplaca.net`).
+
 ## [1.1.0] - 2026-10-22
 ### Adicionado & Reformulado (Redesign Focado em Placas de Veículos)
 - **Novo Posicionamento Estratégico da Landing Page:**

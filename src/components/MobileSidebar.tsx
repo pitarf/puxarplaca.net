@@ -41,7 +41,7 @@ export function MobileSidebar({ isAdmin, isSeo, role, whatsappLink, logoUrl }: M
               <Database className="text-primary w-5 h-5" />
             )}
             <span className="text-lg font-bold tracking-tight text-white">
-              Detetive<span className="text-primary">Buscas</span>
+              Puxar<span className="text-primary">Placa</span>
             </span>
           </Link>
           <button 
