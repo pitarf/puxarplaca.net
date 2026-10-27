@@ -211,10 +211,20 @@ function RegisterContent() {
             </div>
           </div>
 
-          <form action={loginWithGoogle} className="mt-6">
+          {/* Botão do Google protegido pelos checkboxes */}
+          <div className="mt-6">
             <button
-              type="submit"
-              className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-100 text-gray-900 font-medium py-3 rounded-lg transition-colors shadow-sm cursor-pointer border border-slate-200"
+              type="button"
+              onClick={() => {
+                if (!acceptTerms || !acceptPrivacy) {
+                  toast.error('Você deve aceitar os Termos de Uso e a Política de Privacidade antes de se cadastrar.');
+                  return;
+                }
+                loginWithGoogle();
+              }}
+              className={`w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-100 text-gray-900 font-medium py-3 rounded-lg transition-colors shadow-sm border border-slate-200 cursor-pointer ${
+                !acceptTerms || !acceptPrivacy ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -224,7 +234,7 @@ function RegisterContent() {
               </svg>
               Google
             </button>
-          </form>
+          </div>
         </div>
 
         <p className="text-center text-sm text-slate-500 dark:text-gray-400 mt-8">
