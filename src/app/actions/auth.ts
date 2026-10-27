@@ -285,3 +285,32 @@ export async function resetPassword(prevState: any, formData: FormData) {
 
   return { success: true };
 }
+
+/**
+ * Retorna as configurações públicas de branding (logo, favicon, título)
+ * para exibição dinâmica em formulários de autenticação sem expor credenciais.
+ */
+export async function getPublicBranding() {
+  try {
+    const settings = await prisma.systemSetting.findFirst({
+      select: {
+        siteTitle: true,
+        logoUrl: true,
+        faviconUrl: true,
+      }
+    });
+
+    return {
+      siteTitle: settings?.siteTitle || 'PuxarPlaca',
+      logoUrl: settings?.logoUrl || null,
+      faviconUrl: settings?.faviconUrl || null,
+    };
+  } catch (error) {
+    console.error('Erro ao buscar branding público:', error);
+    return {
+      siteTitle: 'PuxarPlaca',
+      logoUrl: null,
+      faviconUrl: null,
+    };
+  }
+}

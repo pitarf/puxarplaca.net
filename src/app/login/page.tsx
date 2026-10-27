@@ -1,17 +1,28 @@
 'use client';
 
-import { useActionState, useEffect, Suspense } from 'react';
-import { login, loginWithGoogle } from '@/app/actions/auth';
+import { useActionState, useEffect, useState, Suspense } from 'react';
+import { login, loginWithGoogle, getPublicBranding } from '@/app/actions/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import { Database, Lock, Mail } from 'lucide-react';
+import { Car, Lock, Mail } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 function LoginContent() {
   const [state, formAction, isPending] = useActionState(login, null);
+  const [branding, setBranding] = useState<{ siteTitle: string; logoUrl: string | null; faviconUrl: string | null }>({
+    siteTitle: 'PuxarPlaca',
+    logoUrl: null,
+    faviconUrl: null,
+  });
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    getPublicBranding().then((res) => {
+      if (res) setBranding(res);
+    }).catch((err) => console.error('Erro ao carregar branding:', err));
+  }, []);
 
   useEffect(() => {
     // Captura erros vindos da URL (ex: redirecionamento do Google OAuth)
@@ -41,8 +52,34 @@ function LoginContent() {
       
       <div className="glass-panel w-full max-w-md p-8 rounded-2xl">
         <div className="flex flex-col items-center mb-8">
-          <Link href="/" className="flex items-center gap-2 mb-6">
-            <span className="text-2xl font-black text-[#135A80] dark:text-white">Puxar<span className="text-[#1F8FCC]">Placa</span></span>
+          <Link href="/" className="flex items-center gap-2 mb-6 group">
+            {branding.logoUrl ? (
+              <img
+                src={branding.logoUrl}
+                alt={branding.siteTitle}
+                className="h-10 w-auto object-contain transition-all group-hover:scale-105"
+              />
+            ) : branding.faviconUrl ? (
+              <div className="flex items-center gap-2">
+                <img
+                  src={branding.faviconUrl}
+                  alt={branding.siteTitle}
+                  className="w-8 h-8 object-contain transition-all group-hover:scale-105"
+                />
+                <span className="text-2xl font-black text-[#135A80] dark:text-white">
+                  Puxar<span className="text-[#1F8FCC]">Placa</span>
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#135A80] to-[#1F8FCC] flex items-center justify-center text-white shadow-md shadow-[#135A80]/20 transition-all group-hover:scale-105">
+                  <Car className="w-5 h-5" />
+                </div>
+                <span className="text-2xl font-black text-[#135A80] dark:text-white">
+                  Puxar<span className="text-[#1F8FCC]">Placa</span>
+                </span>
+              </div>
+            )}
           </Link>
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Bem-vindo de volta</h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-2">Acesse sua conta para realizar consultas.</p>
