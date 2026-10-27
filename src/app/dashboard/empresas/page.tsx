@@ -112,7 +112,7 @@ export default function EmpresasPage() {
 
     try {
       const timeoutPromise = new Promise<{ error?: string }>((resolve) => 
-        setTimeout(() => resolve({ error: 'Tempo limite excedido. O servidor demorou para responder. Tente novamente.' }), 15000)
+        setTimeout(() => resolve({ error: 'Tempo limite excedido. O servidor demorou para responder. Tente novamente.' }), 30000)
       );
       const res: any = await Promise.race([
         realizarConsulta('cnpj', chaveValor, selectedModules, isDemo),

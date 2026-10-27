@@ -2,6 +2,13 @@
 
 Todas as mudanças notáveis para este projeto serão documentadas neste arquivo.
 
+## [1.3.1] - 2026-10-26
+### Melhorado & Resiliência de APIs (Aumento de Timeout de Consultas)
+- **Tolerância a Picos de Latência na DirectData:**
+  - Timeout global da instância do Axios (`axiosV3`) ampliado de **8.000ms para 18.000ms** em `src/services/direct-data.ts`.
+  - Timeout específico da rota `ProcessosJudiciaisCompleta` ampliado de **5.000ms para 18.000ms**.
+  - Harmonização dos temporizadores nos painéis de `/dashboard/veiculos` e `/dashboard/empresas` para **30.000ms**, permitindo que consultas mais complexas aguardem com folga as respostas das bases estaduais e nacionais sem abortar prematuramente.
+
 ## [1.3.0] - 2026-10-23
 ### Modificado & Identidade Visual (Renomeação Integral de Branding para PuxarPlaca)
 - **Eliminação Completa da Marca Legada:**

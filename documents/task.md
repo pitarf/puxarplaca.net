@@ -1,5 +1,12 @@
 # Roadmap de Desenvolvimento - PuxarPlaca (Splits de Entrega)
 
+## SPLIT 13: Otimização de Resiliência e Timeouts de Consultas (✅ CONCLUÍDO)
+*Este split foca na ampliação dos limites de tolerância a picos de latência na DirectData.*
+- [x] **Aumento do Timeout AxiosV3:** Ajuste de 8.000ms para 18.000ms na instância global do Axios (`src/services/direct-data.ts`).
+- [x] **Ajuste na Rota de Processos:** Timeout ampliado de 5.000ms para 18.000ms na rota `ProcessosJudiciaisCompleta`.
+- [x] **Harmonização no Frontend:** Ajuste dos timeouts de proteção de tela em `/dashboard/veiculos` e `/dashboard/empresas` para 30.000ms, em perfeita sintonia com o teto de 30s da Server Action `realizarConsulta`.
+- [x] **Build e Deploy:** Validação e compilação do Next.js 16 sem quebras e atualização em produção na VPS.
+
 ## SPLIT 12: Renomeação Integral de Branding para PuxarPlaca (✅ CONCLUÍDO)
 *Este split foca na alteração de todas as ocorrências de "Detetive Buscas" / "DetetiveBuscas" para a nova marca "PuxarPlaca".*
 - [x] **Substituição no Código-Fonte:**
