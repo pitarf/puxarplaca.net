@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Configurações
-BACKUP_DIR="./backups"
+BACKUP_DIR="/var/www/puxarplaca.net/backups"
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-BACKUP_NAME="backup_consultaall_$TIMESTAMP.sql"
+BACKUP_NAME="backup_puxarplaca_$TIMESTAMP.sql"
 CONTAINER_NAME="consultaall-db"
 DB_USER="postgres"
 DB_NAME="consultaall"
