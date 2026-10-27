@@ -5,11 +5,14 @@ import { register, loginWithGoogle, getPublicBranding } from '@/app/actions/auth
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import { Car, Lock, Mail, User } from 'lucide-react';
+import { Car, Lock, Mail, User, ChevronDown, ChevronUp, ShieldAlert } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 function RegisterContent() {
   const [state, formAction, isPending] = useActionState(register, null);
+  const [showTermsText, setShowTermsText] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [branding, setBranding] = useState<{ siteTitle: string; logoUrl: string | null; faviconUrl: string | null }>({
     siteTitle: 'PuxarPlaca',
     logoUrl: null,
@@ -128,10 +131,71 @@ function RegisterContent() {
             </div>
           </div>
 
+          {/* Acordeão: Termos de Uso e Responsabilidade */}
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={() => setShowTermsText(!showTermsText)}
+              className="w-full flex items-center justify-between text-left text-xs font-semibold text-primary hover:text-blue-500 transition-colors py-1 cursor-pointer select-none"
+            >
+              <span>Termos de Uso e Responsabilidade</span>
+              {showTermsText ? (
+                <ChevronUp className="w-4 h-4 ml-1 flex-shrink-0" />
+              ) : (
+                <ChevronDown className="w-4 h-4 ml-1 flex-shrink-0" />
+              )}
+            </button>
+
+            {showTermsText && (
+              <div className="mt-2 p-3.5 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs text-slate-600 dark:text-slate-300 space-y-2 leading-relaxed animate-in fade-in duration-200">
+                <p>
+                  Antes de criar sua conta, leia e aceite as condições de utilização da plataforma. Os serviços destinam-se exclusivamente a consultas com finalidade legítima e fundamento jurídico adequado.
+                </p>
+                <p>
+                  É proibido utilizar as informações para perseguição, fraude, discriminação, exposição indevida, ameaças ou qualquer atividade ilícita.
+                </p>
+                <p>
+                  O usuário responde por suas condutas e pelo tratamento posterior que realizar, sem prejuízo das responsabilidades legais da operadora.
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Caixas de Seleção Obrigatórias */}
+          <div className="space-y-2.5 pt-1">
+            <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-700 dark:text-slate-300 select-none">
+              <input
+                type="checkbox"
+                name="acceptTerms"
+                checked={acceptTerms}
+                onChange={(e) => setAcceptTerms(e.target.checked)}
+                required
+                className="mt-0.5 w-4 h-4 rounded border-slate-300 dark:border-white/20 text-primary focus:ring-primary/30 cursor-pointer"
+              />
+              <span className="leading-tight">
+                Li e aceito os Termos de Uso e as regras de utilização responsável.
+              </span>
+            </label>
+
+            <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-700 dark:text-slate-300 select-none">
+              <input
+                type="checkbox"
+                name="acceptPrivacy"
+                checked={acceptPrivacy}
+                onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                required
+                className="mt-0.5 w-4 h-4 rounded border-slate-300 dark:border-white/20 text-primary focus:ring-primary/30 cursor-pointer"
+              />
+              <span className="leading-tight">
+                Declaro ter tomado conhecimento da Política de Privacidade.
+              </span>
+            </label>
+          </div>
+
           <button 
             type="submit" 
-            disabled={isPending}
-            className="w-full btn-premium py-3 rounded-lg font-medium mt-6 flex items-center justify-center cursor-pointer"
+            disabled={isPending || !acceptTerms || !acceptPrivacy}
+            className="w-full btn-premium py-3 rounded-lg font-medium mt-4 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isPending ? 'Criando...' : 'Cadastrar'}
           </button>

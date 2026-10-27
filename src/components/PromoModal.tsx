@@ -8,9 +8,10 @@ import { X, Gift, Phone, Sparkles } from 'lucide-react';
 interface PromoModalProps {
   hasSeenPopup: boolean;
   userWhatsapp: string | null;
+  canShow?: boolean;
 }
 
-export default function PromoModal({ hasSeenPopup, userWhatsapp }: PromoModalProps) {
+export default function PromoModal({ hasSeenPopup, userWhatsapp, canShow = true }: PromoModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [whatsapp, setWhatsapp] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,15 +35,15 @@ export default function PromoModal({ hasSeenPopup, userWhatsapp }: PromoModalPro
   };
 
   useEffect(() => {
-    // Só abre o modal se ele nunca tiver visto o popup E não tiver WhatsApp cadastrado
-    if (!hasSeenPopup && !userWhatsapp) {
-      // Pequeno delay para a página carregar
+    // Só abre o modal se puder mostrar (ex: após aceitar os termos), nunca tiver visto o popup E não tiver WhatsApp cadastrado
+    if (canShow && !hasSeenPopup && !userWhatsapp) {
+      // Pequeno delay para transição suave
       const timer = setTimeout(() => {
         setIsOpen(true);
-      }, 1500);
+      }, 800);
       return () => clearTimeout(timer);
     }
-  }, [hasSeenPopup, userWhatsapp]);
+  }, [canShow, hasSeenPopup, userWhatsapp]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
