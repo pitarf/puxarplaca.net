@@ -33,26 +33,34 @@ export default async function Footer({ logoUrl }: FooterProps) {
     }
   }
 
+  // Bloco 24: Colunas revisadas de acordo com o PROMPT_SUPREMO_HOMEPAGE.md
   const footerLinks = {
-    veiculos: [
-      { label: 'Consulta de Placa', href: '/#consulta' },
-      { label: 'Dados Técnicos e Renavam', href: '/#consultas-veiculares' },
-      { label: 'Multas e Débitos Estaduais', href: '/#consultas-veiculares' },
-      { label: 'Histórico de Proprietários', href: '/#consultas-veiculares' },
-      { label: 'Restrições Judiciais e Renajud', href: '/#consultas-veiculares' },
+    consultas: [
+      { label: 'Consultar placa', href: '/#consultar-placa' },
+      { label: 'Dados técnicos', href: '/#relatorios-precos' },
+      { label: 'Documentação', href: '/#relatorios-precos' },
+      { label: 'Débitos e multas', href: '/#debitos-veiculares' },
+      { label: 'Restrições veiculares', href: '/#restricoes-veiculares' },
+    ],
+    ferramentas: [
+      { label: 'Verificar placa', href: '/#verificador-placa' },
+      { label: 'Conversor Mercosul', href: '/#conversor-mercosul' },
+      { label: 'Checklist de veículo usado', href: '/#checklist-veiculo' },
+      { label: 'Perguntas frequentes', href: '/#faq' },
     ],
     outros: [
-      { label: 'Consulta CPF', href: '/consulta-cpf' },
-      { label: 'Consulta Telefone', href: '/consulta-telefone' },
-      { label: 'Consulta CNPJ', href: '/consulta-cnpj' },
-      { label: 'Consulta por Nome', href: '/consulta-nome' },
-      { label: 'Processos Judiciais', href: '/#outros-servicos' },
+      { label: 'Consulta CPF', href: '/dashboard' },
+      { label: 'Consulta CNPJ', href: '/dashboard/empresas' },
+      { label: 'Consulta telefone', href: '/dashboard' },
+      { label: 'Consulta por nome', href: '/dashboard' },
     ],
-    empresa: [
-      ...empresaPages,
-      { label: 'Blog Informativo', href: '/blog' }
-    ],
-    legal: legalPages
+    institucional: [
+      { label: 'Sobre nós', href: '/sobre' },
+      { label: 'Contato', href: '/contato' },
+      { label: 'Política de Privacidade', href: '/politica-de-privacidade' },
+      { label: 'Termos de Uso', href: '/termos' },
+      { label: 'Proteção de Dados (LGPD)', href: '/protecao-de-dados' },
+    ]
   };
 
   return (
@@ -60,7 +68,7 @@ export default async function Footer({ logoUrl }: FooterProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Grid de Links */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 pb-10 border-b border-white/10">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 pb-10 border-b border-white/10 text-left">
           
           {/* Coluna da Marca */}
           <div className="col-span-2 space-y-4">
@@ -81,25 +89,28 @@ export default async function Footer({ logoUrl }: FooterProps) {
               </span>
             </Link>
             
-            <p className="text-sm text-[#73CEFF]/90 max-w-sm leading-relaxed">
-              Plataforma tecnológica especializada em checagem veicular e validação de informações cadastrais por placa em bases oficiais.
+            <p className="text-xs sm:text-sm text-[#73CEFF]/90 max-w-sm leading-relaxed">
+              Plataforma independente especializada em consultas veiculares por placa, ferramentas de verificação de formato e informações educativas sobre veículos.
             </p>
 
-            <div className="flex items-center gap-2 text-xs text-[#73CEFF] font-medium pt-2">
+            <div className="flex items-center gap-2 text-xs text-[#73CEFF] font-medium pt-1">
               <ShieldCheck className="w-4 h-4 text-[#26B3FF]" />
-              <span>Ambiente com criptografia SSL e conformidade LGPD</span>
+              <span>Ambiente criptografado e conformidade com a LGPD</span>
             </div>
           </div>
 
-          {/* Coluna Consultas Veiculares */}
+          {/* Coluna 1 — Consultas */}
           <div className="space-y-3 col-span-1">
             <h4 className="text-xs font-bold text-[#73CEFF] tracking-wider uppercase">
-              Consultas Veiculares
+              Consultas
             </h4>
             <ul className="space-y-2 text-xs">
-              {footerLinks.veiculos.map((link) => (
+              {footerLinks.consultas.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-slate-200 hover:text-[#26B3FF] transition-colors">
+                  <Link 
+                    href={link.href} 
+                    className="text-white/80 hover:text-white transition-colors"
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -107,15 +118,18 @@ export default async function Footer({ logoUrl }: FooterProps) {
             </ul>
           </div>
 
-          {/* Coluna Outros Serviços */}
+          {/* Coluna 2 — Ferramentas */}
           <div className="space-y-3 col-span-1">
             <h4 className="text-xs font-bold text-[#73CEFF] tracking-wider uppercase">
-              Outros Serviços
+              Ferramentas
             </h4>
             <ul className="space-y-2 text-xs">
-              {footerLinks.outros.map((link) => (
+              {footerLinks.ferramentas.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-slate-200 hover:text-[#26B3FF] transition-colors">
+                  <Link 
+                    href={link.href} 
+                    className="text-white/80 hover:text-white transition-colors"
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -123,49 +137,43 @@ export default async function Footer({ logoUrl }: FooterProps) {
             </ul>
           </div>
 
-          {/* Coluna Legal & Institucional */}
+          {/* Coluna 3 — Outros Serviços & Institucional */}
           <div className="space-y-3 col-span-1">
             <h4 className="text-xs font-bold text-[#73CEFF] tracking-wider uppercase">
-              Termos e Legal
+              Institucional
             </h4>
             <ul className="space-y-2 text-xs">
+              {footerLinks.institucional.map((link) => (
+                <li key={link.label}>
+                  <Link 
+                    href={link.href} 
+                    className="text-white/80 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
               <li>
-                <Link href="/sobre" className="text-slate-200 hover:text-[#26B3FF] transition-colors">
-                  Sobre Nós
-                </Link>
-              </li>
-              <li>
-                <Link href="/politica-de-privacidade" className="text-slate-200 hover:text-[#26B3FF] transition-colors">
-                  Privacidade
-                </Link>
-              </li>
-              <li>
-                <Link href="/politica-de-cookies" className="text-slate-200 hover:text-[#26B3FF] transition-colors">
-                  Cookies
-                </Link>
-              </li>
-              <li>
-                <Link href="/protecao-de-dados" className="text-slate-200 hover:text-[#26B3FF] transition-colors">
-                  Canal LGPD
-                </Link>
-              </li>
-              <li>
-                <Link href="/contato" className="text-slate-200 hover:text-[#26B3FF] transition-colors">
-                  Fale Conosco
+                <Link 
+                  href="/blog" 
+                  className="text-white/80 hover:text-white transition-colors"
+                >
+                  Blog Informativo
                 </Link>
               </li>
             </ul>
           </div>
+
         </div>
 
-        {/* Rodapé inferior */}
-        <div className="pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-[#73CEFF]/70 gap-4">
-          <p>
-            © {new Date().getFullYear()} PuxarPlaca. Todos os direitos reservados.
+        {/* Texto final Bloco 24 */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left text-xs text-[#73CEFF]/70">
+          <p className="max-w-2xl leading-relaxed">
+            PuxarPlaca — Plataforma independente de consultas online. As informações disponíveis dependem da modalidade contratada, dos registros acessíveis e das condições legais aplicáveis.
           </p>
-          <p className="text-center md:text-right text-[11px]">
-            As consultas utilizam dados de fontes públicas governamentais e de trânsito em estrita conformidade com a Lei Geral de Proteção de Dados (Lei 13.709/2018).
-          </p>
+          <div className="text-[11px] font-mono text-white/60 shrink-0">
+            © {new Date().getFullYear()} PuxarPlaca.net
+          </div>
         </div>
 
       </div>
