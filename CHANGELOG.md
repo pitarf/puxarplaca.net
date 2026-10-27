@@ -2,6 +2,16 @@
 
 Todas as mudanças notáveis para este projeto serão documentadas neste arquivo.
 
+## [1.4.0] - 2026-10-27
+### Modificado & Infraestrutura (Migração do Banco de Produção para o Docker Local)
+- **Desconexão do Neon Cloud e Ativação do PostgreSQL Local:**
+  - Dump estrutural e de dados completo extraído e importado para o container `consultaall-db` (PostgreSQL 15 Alpine).
+  - Variável de ambiente `DATABASE_URL` no `.env` da VPS apontada para a rede interna do Docker (`postgresql://postgres:db_safe_detetive_2026_all@db:5432/consultaall?schema=public`).
+  - Persistência garantida via volume nomeado mapeado no disco (`puxarplacanet_postgres-data`).
+- **Automação de Backup:**
+  - Script `scripts/backup-db.sh` parametrizado e testado com sucesso.
+  - Cron configurado no host da VPS para rodar diariamente às 03:00 AM com retenção automática de 7 dias.
+
 ## [1.3.1] - 2026-10-26
 ### Melhorado & Resiliência de APIs (Aumento de Timeout de Consultas)
 - **Tolerância a Picos de Latência na DirectData:**

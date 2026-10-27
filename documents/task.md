@@ -1,5 +1,13 @@
 # Roadmap de Desenvolvimento - PuxarPlaca (Splits de Entrega)
 
+## SPLIT 14: Migração para PostgreSQL Local Conteinerizado (✅ CONCLUÍDO)
+*Este split foca no isolamento de produção com o banco de dados oficial rodando dentro do container Docker na VPS.*
+- [x] **Dump e Restauração Completa:** Exportação de tabelas, índices e dados do Neon Cloud e restauração com integridade no container `consultaall-db`.
+- [x] **Branding e Usuários:** Confirmação da conta de administrador (`rfpita.ti@gmail.com`) e configurações da marca `PuxarPlaca` no banco local.
+- [x] **Conexão de Rede Interna Docker:** Variável `DATABASE_URL` no `.env` de produção alterada para `postgresql://postgres:db_safe_detetive_2026_all@db:5432/consultaall?schema=public`.
+- [x] **Rotina de Backup Diário:** Script `/var/www/puxarplaca.net/scripts/backup-db.sh` configurado no crontab (`0 3 * * *`) com compactação gzip e retenção de 7 dias.
+- [x] **Validação em Produção:** Consulta via Prisma no container `consultaall-app` confirmando comunicação direta com o banco do Docker.
+
 ## SPLIT 13: Otimização de Resiliência e Timeouts de Consultas (✅ CONCLUÍDO)
 *Este split foca na ampliação dos limites de tolerância a picos de latência na DirectData.*
 - [x] **Aumento do Timeout AxiosV3:** Ajuste de 8.000ms para 18.000ms na instância global do Axios (`src/services/direct-data.ts`).
