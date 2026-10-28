@@ -57,7 +57,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-background flex">
-      {/* Sidebar - Inspirado na referência DeskData */}
+      {/* Sidebar de navegação */}
       <aside className="w-64 border-r border-white/10 bg-[#0f172a] hidden md:flex flex-col">
         <div className="h-20 flex items-center justify-center border-b border-white/5 p-4">
           <Link href="/dashboard" className="flex items-center gap-2">
