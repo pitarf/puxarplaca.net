@@ -12,19 +12,19 @@ export default function HomeSearchBox() {
   const [progress, setProgress] = useState(0);
   const [searchStage, setSearchStage] = useState<'idle' | 'loading' | 'found' | 'error'>('idle');
 
-  // Normalização conforme regras
+  // Normalização e digitação livre
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(null);
     setSearchStage('idle');
     setProgress(0);
     
-    // Converte para maiúsculas e remove caracteres indesejados (mantém apenas A-Z, 0-9 e hífen)
-    let raw = e.target.value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+    // Converte para maiúsculas
+    let raw = e.target.value.toUpperCase();
     if (raw.length > 8) raw = raw.slice(0, 8);
     setValue(raw);
 
-    // Validação de formato em tempo real
-    const clean = raw.replace(/-/g, '').replace(/\s+/g, '');
+    // Identificação visual opcional (Mercosul ou Antiga)
+    const clean = raw.replace(/[^A-Z0-9]/g, '');
     if (clean.length === 7) {
       if (/^[A-Z]{3}[0-9][A-Z][0-9]{2}$/.test(clean)) {
         setPlatePattern('mercosul');
@@ -42,35 +42,21 @@ export default function HomeSearchBox() {
     e.preventDefault();
     setError(null);
 
-    const clean = value.replace(/-/g, '').replace(/\s+/g, '').toUpperCase();
+    const clean = value.trim().toUpperCase();
 
+    // Se o usuário não digitou nada, avisa apenas para preencher o campo
     if (!clean) {
-      setError('Informe uma placa para começar.');
+      setError('Digite a placa do veículo para consultar.');
       setSearchStage('error');
       return;
     }
 
-    if (clean.length !== 7) {
-      setError('Não reconhecemos o formato informado. Confira os sete caracteres e tente novamente.');
-      setSearchStage('error');
-      return;
-    }
-
-    const isMercosul = /^[A-Z]{3}[0-9][A-Z][0-9]{2}$/.test(clean);
-    const isAntiga = /^[A-Z]{3}[0-9]{4}$/.test(clean);
-
-    if (!isMercosul && !isAntiga) {
-      setError('Não reconhecemos o formato informado. Confira os sete caracteres e tente novamente.');
-      setSearchStage('error');
-      return;
-    }
-
-    setPlatePattern(isMercosul ? 'mercosul' : 'antiga');
+    // Sem travas rígidas de validação: qualquer coisa digitada ativa a simulação
     setSearchStage('loading');
     setLoading(true);
-    setProgress(10);
+    setProgress(15);
 
-    // Salva a placa temporariamente em sessionStorage para preservar no fluxo de cadastro
+    // Salva a placa temporariamente em sessionStorage para uso no cadastro
     if (typeof window !== 'undefined') {
       try {
         sessionStorage.setItem('puxarplaca_last_search', clean);

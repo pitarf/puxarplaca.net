@@ -18,12 +18,12 @@ export default async function AdminVendasPage() {
 
   return (
     <div className="max-w-6xl mx-auto pb-20">
-      <div className="mb-8 border-b border-slate-200 dark:border-white/10 pb-6">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
-          <DollarSign className="text-green-500 w-8 h-8" />
+      <div className="mb-6 sm:mb-8 border-b border-slate-200 dark:border-white/10 pb-4 sm:pb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white flex items-center gap-2.5 sm:gap-3">
+          <DollarSign className="text-green-500 w-7 h-7 sm:w-8 sm:h-8" />
           Histórico de Vendas
         </h1>
-        <p className="text-slate-500 dark:text-gray-400 mt-2">Gerencie recargas Pix, audite faturas e aprove depósitos pendentes manualmente.</p>
+        <p className="text-slate-500 dark:text-gray-400 mt-1.5 sm:mt-2 text-xs sm:text-sm">Gerencie recargas Pix, audite faturas e aprove depósitos pendentes manualmente.</p>
       </div>
 
       <VendasClient initialSales={sales} initialPending={pending} />

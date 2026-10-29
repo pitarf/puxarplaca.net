@@ -7,7 +7,7 @@ import { Calendar } from 'lucide-react';
 const PERIODS = [
   { value: 'today', label: 'Hoje' },
   { value: 'week', label: '7 Dias' },
-  { value: 'month', label: '30 Dias' },
+  { value: 'month', label: 'Mês Atual' },
   { value: 'year', label: 'Ano' },
   { value: 'all', label: 'Tudo' }
 ];
@@ -71,30 +71,30 @@ export default function DashboardClient({ currentPeriod, initialStart, initialEn
 
       {/* Inputs de Data (Colapsável) */}
       {showDatePicker && (
-        <form onSubmit={applyCustomFilter} className="flex flex-row flex-wrap items-center gap-2 bg-slate-800/80 dark:bg-card border border-white/10 rounded-2xl p-2 animate-in fade-in slide-in-from-top-1 duration-200">
-          <div className="flex items-center gap-1">
-            <span className="text-[10px] font-bold text-white/50 px-1">De:</span>
+        <form onSubmit={applyCustomFilter} className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 bg-slate-800/80 dark:bg-card border border-white/10 rounded-2xl p-2.5 animate-in fade-in slide-in-from-top-1 duration-200 w-full sm:w-auto">
+          <div className="flex items-center gap-1.5 flex-1">
+            <span className="text-[10px] font-bold text-white/50 px-1 shrink-0">De:</span>
             <input
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
               required
-              className="bg-black/40 border border-white/10 rounded-lg px-2 py-1 text-xs text-white outline-none focus:border-blue-500"
+              className="bg-black/40 border border-white/10 rounded-lg px-2 py-1 text-xs text-white outline-none focus:border-blue-500 w-full"
             />
           </div>
-          <div className="flex items-center gap-1">
-            <span className="text-[10px] font-bold text-white/50 px-1">Até:</span>
+          <div className="flex items-center gap-1.5 flex-1">
+            <span className="text-[10px] font-bold text-white/50 px-1 shrink-0">Até:</span>
             <input
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
               required
-              className="bg-black/40 border border-white/10 rounded-lg px-2 py-1 text-xs text-white outline-none focus:border-blue-500"
+              className="bg-black/40 border border-white/10 rounded-lg px-2 py-1 text-xs text-white outline-none focus:border-blue-500 w-full"
             />
           </div>
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3 py-1 rounded-lg text-xs shadow-md transition-all active:scale-95"
+            className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-1.5 rounded-lg text-xs shadow-md transition-all active:scale-95 text-center mt-1 sm:mt-0"
           >
             OK
           </button>

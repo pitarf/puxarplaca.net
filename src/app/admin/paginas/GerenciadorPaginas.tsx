@@ -262,8 +262,8 @@ export default function GerenciadorPaginas({ initialPages }: GerenciadorPaginasP
   return (
     <>
       {/* Barra superior de ações */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        <div className="relative flex-grow max-w-md">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
+        <div className="relative flex-grow max-w-full sm:max-w-md">
           <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
             <Search className="w-4 h-4" />
           </span>
@@ -272,23 +272,23 @@ export default function GerenciadorPaginas({ initialPages }: GerenciadorPaginasP
             placeholder="Pesquisar por título ou slug..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-card text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/50 dark:focus:ring-primary/30 text-sm transition-all shadow-sm"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-card text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/50 dark:focus:ring-primary/30 text-xs sm:text-sm transition-all shadow-sm"
           />
         </div>
 
         <button
           onClick={openCreateModal}
-          className="flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-all shadow-md hover:shadow-blue-500/10 active:scale-95 cursor-pointer"
+          className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 text-xs sm:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-all shadow-md hover:shadow-blue-500/10 active:scale-95 cursor-pointer shrink-0"
         >
-          <Plus className="w-4.5 h-4.5" />
+          <Plus className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
           Nova Página SEO
         </button>
       </div>
 
       {/* Tabela de Páginas */}
-      <div className="glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-card shadow-sm hover:shadow-md transition-all">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-700 dark:text-gray-300">
+      <div className="glass-panel rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-card shadow-sm hover:shadow-md transition-all">
+        <div className="overflow-x-auto scrollbar-thin">
+          <table className="w-full min-w-[750px] text-left text-sm text-slate-700 dark:text-gray-300">
             <thead className="bg-slate-50 dark:bg-black/40 text-xs uppercase text-slate-500 dark:text-gray-500 font-bold border-b border-slate-200 dark:border-white/5">
               <tr>
                 <th className="px-6 py-4">Título / H1</th>
@@ -404,25 +404,25 @@ export default function GerenciadorPaginas({ initialPages }: GerenciadorPaginasP
 
       {/* Modal Criar/Editar Página */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="relative w-full max-w-4xl bg-white dark:bg-card border border-slate-200 dark:border-white/10 rounded-3xl shadow-2xl my-8 max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-2 sm:p-4 overflow-y-auto">
+          <div className="relative w-full max-w-[95vw] sm:max-w-4xl bg-white dark:bg-card border border-slate-200 dark:border-white/10 rounded-2xl sm:rounded-3xl shadow-2xl my-auto max-h-[92vh] flex flex-col overflow-hidden">
             
             {/* Header */}
-            <div className="p-6 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
-              <h2 className="text-xl font-black text-[#243b56] dark:text-white flex items-center gap-2">
-                <Globe className="text-blue-500 w-5 h-5" />
-                {editingPage ? 'Editar Página SEO' : 'Criar Nova Página SEO'}
+            <div className="p-4 sm:p-6 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
+              <h2 className="text-base sm:text-xl font-black text-[#243b56] dark:text-white flex items-center gap-2 truncate">
+                <Globe className="text-blue-500 w-5 h-5 shrink-0" />
+                <span className="truncate">{editingPage ? 'Editar Página SEO' : 'Criar Nova Página SEO'}</span>
               </h2>
               <button 
                 onClick={() => setModalOpen(false)}
-                className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-slate-600 dark:hover:text-white"
+                className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-slate-600 dark:hover:text-white shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Formulário */}
-            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
               
               {/* Título e Slug */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -753,14 +753,14 @@ export default function GerenciadorPaginas({ initialPages }: GerenciadorPaginasP
             </form>
 
             {/* Footer com Ações */}
-            <div className="p-6 border-t border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-black/20 rounded-b-3xl flex justify-between gap-3 items-center">
+            <div className="p-4 sm:p-6 border-t border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-black/20 rounded-b-2xl sm:rounded-b-3xl flex flex-col sm:flex-row justify-between gap-3 items-stretch sm:items-center">
               <div>
                 {editingPage && (
                   <a
                     href={`/${editingPage.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-xs font-bold text-slate-700 dark:text-white rounded-xl transition-all shadow-sm flex items-center gap-1"
+                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-xs font-bold text-slate-700 dark:text-white rounded-xl transition-all shadow-sm flex items-center justify-center gap-1 w-full sm:w-auto"
                   >
                     <Eye className="w-3.5 h-3.5" />
                     Pré-visualizar Página
@@ -768,11 +768,11 @@ export default function GerenciadorPaginas({ initialPages }: GerenciadorPaginasP
                 )}
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3 justify-end">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-5 py-3 text-xs md:text-sm font-bold text-slate-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white border border-slate-200 dark:border-white/10 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-all cursor-pointer"
+                  className="flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 sm:py-3 text-xs md:text-sm font-bold text-slate-500 hover:text-slate-900 dark:text-gray-400 dark:hover:text-white border border-slate-200 dark:border-white/10 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-all cursor-pointer text-center"
                 >
                   Cancelar
                 </button>
@@ -780,10 +780,10 @@ export default function GerenciadorPaginas({ initialPages }: GerenciadorPaginasP
                   type="button"
                   onClick={handleSubmit}
                   disabled={loading || uploadingImage}
-                  className="px-6 py-3 text-xs md:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-xl transition-all shadow-md hover:shadow-blue-500/10 disabled:opacity-50 inline-flex items-center gap-2 cursor-pointer"
+                  className="flex-1 sm:flex-initial px-5 sm:px-6 py-2.5 sm:py-3 text-xs md:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-xl transition-all shadow-md hover:shadow-blue-500/10 disabled:opacity-50 inline-flex items-center justify-center gap-2 cursor-pointer text-center"
                 >
-                  {loading ? <Loader2 className="w-4.5 h-4.5 animate-spin" /> : <Save className="w-4.5 h-4.5" />}
-                  {editingPage ? 'Salvar Alterações' : 'Criar Página'}
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                  {editingPage ? 'Salvar' : 'Criar Página'}
                 </button>
               </div>
             </div>

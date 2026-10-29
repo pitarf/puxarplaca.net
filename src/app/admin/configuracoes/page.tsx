@@ -108,15 +108,15 @@ export default function AdminSettingsPage() {
 
   return (
     <div className="max-w-4xl mx-auto pb-12">
-      <div className="mb-8 border-b border-slate-200 dark:border-white/10 pb-6">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Configurações do Sistema</h1>
-        <p className="text-slate-500 dark:text-gray-400 mt-2">Gerencie a identidade visual, SEO e canais de suporte.</p>
+      <div className="mb-6 sm:mb-8 border-b border-slate-200 dark:border-white/10 pb-4 sm:pb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Configurações do Sistema</h1>
+        <p className="text-slate-500 dark:text-gray-400 mt-1.5 sm:mt-2 text-xs sm:text-sm">Gerencie a identidade visual, SEO e canais de suporte.</p>
       </div>
 
-      <form onSubmit={handleSave} className="space-y-8">
+      <form onSubmit={handleSave} className="space-y-6 sm:space-y-8">
 
         {/* ====== BRANDING VISUAL ====== */}
-        <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-3xl p-8 space-y-6">
+        <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-6">
           <div className="flex items-center gap-3 border-b border-slate-100 dark:border-white/5 pb-4 mb-6">
             <div className="p-2 bg-blue-500/20 rounded-lg text-blue-600 dark:text-blue-400">
               <Image className="w-5 h-5" />
@@ -217,7 +217,7 @@ export default function AdminSettingsPage() {
         </section>
 
         {/* ====== SEO & IDENTIDADE ====== */}
-        <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-3xl p-8 space-y-6">
+        <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-6">
           <div className="flex items-center gap-3 border-b border-slate-100 dark:border-white/5 pb-4 mb-6">
             <div className="p-2 bg-primary/20 rounded-lg text-primary">
               <Globe className="w-5 h-5" />
@@ -264,7 +264,7 @@ export default function AdminSettingsPage() {
         {role === 'ADMIN' && (
           <>
             {/* ====== GATEWAY DE PAGAMENTO (PUSHINPAY) ====== */}
-            <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-3xl p-8 space-y-6">
+            <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-6">
               <div className="flex items-center gap-3 border-b border-slate-100 dark:border-white/5 pb-4 mb-6">
                 <div className="p-2 bg-emerald-500/20 rounded-lg text-emerald-600 dark:text-emerald-400">
                   <CreditCard className="w-5 h-5" />
@@ -357,7 +357,7 @@ export default function AdminSettingsPage() {
             </section>
 
             {/* ====== CONFIGURAÇÕES DE APIS EXTERNAS ====== */}
-            <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-3xl p-8 space-y-6">
+            <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-6">
               <div className="flex items-center gap-3 border-b border-slate-100 dark:border-white/5 pb-4 mb-6">
                 <div className="p-2 bg-blue-500/20 rounded-lg text-blue-600 dark:text-blue-400">
                   <Settings className="w-5 h-5" />
@@ -515,7 +515,7 @@ export default function AdminSettingsPage() {
 
         {/* ====== REGRAS DE CONSULTA E LGPD ====== */}
         {role === 'ADMIN' && (
-          <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-3xl p-8 space-y-6">
+          <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-6">
             <div className="flex items-center gap-3 border-b border-slate-100 dark:border-white/5 pb-4 mb-6">
               <div className="p-2 bg-emerald-500/20 rounded-lg text-emerald-600 dark:text-emerald-400">
                 <ShieldCheck className="w-5 h-5" />
@@ -547,7 +547,7 @@ export default function AdminSettingsPage() {
         )}
 
         {/* ====== INFORMAÇÕES LEGAIS (PARA TERMOS DE USO) ====== */}
-        <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-3xl p-8 space-y-6">
+        <section className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-6">
           <div className="flex items-center gap-3 border-b border-slate-100 dark:border-white/5 pb-4 mb-6">
             <div className="p-2 bg-purple-500/20 rounded-lg text-purple-600 dark:text-purple-400">
               <Scale className="w-5 h-5" />
@@ -624,7 +624,7 @@ export default function AdminSettingsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="bg-primary hover:bg-primary/90 text-white font-bold px-8 py-4 rounded-2xl shadow-xl shadow-primary/20 transition-all flex items-center gap-3 disabled:opacity-50"
+            className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white font-bold px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl shadow-xl shadow-primary/20 transition-all flex items-center justify-center gap-3 disabled:opacity-50 text-xs sm:text-sm cursor-pointer"
           >
             {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
             Salvar Alterações

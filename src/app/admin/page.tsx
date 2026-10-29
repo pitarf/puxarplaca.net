@@ -22,7 +22,7 @@ export default async function AdminDashboardPage({
     switch (p) {
       case 'today': return 'Hoje';
       case 'week': return 'Últimos 7 Dias';
-      case 'month': return 'Últimos 30 Dias';
+      case 'month': return 'Mês Atual';
       case 'year': return 'Ano Atual';
       case 'all': return 'Histórico Completo';
       case 'custom':
@@ -40,12 +40,12 @@ export default async function AdminDashboardPage({
   return (
     <div className="max-w-6xl mx-auto pb-20 space-y-8">
       {/* 1. Header Banner */}
-      <div className="bg-gradient-to-r from-[#0f1e36] to-[#1e3b5b] text-white p-6 md:p-8 rounded-3xl shadow-lg border border-[#1e3b5b]/30 flex flex-col md:flex-row md:items-center justify-between gap-6 overflow-hidden min-w-0">
+      <div className="bg-gradient-to-r from-[#0f1e36] to-[#1e3b5b] text-white p-5 sm:p-6 md:p-8 rounded-3xl shadow-lg border border-[#1e3b5b]/30 flex flex-col md:flex-row md:items-center justify-between gap-6 overflow-hidden min-w-0">
         <div className="space-y-1 min-w-0">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
             Dashboard Administrativo
           </h1>
-          <p className="text-white/70 text-sm font-medium">
+          <p className="text-white/70 text-xs sm:text-sm font-medium">
             Visão panorâmica consolidada para o período: <span className="font-bold text-sky-400">{getPeriodLabel(currentPeriod)}</span>.
           </p>
         </div>
@@ -55,14 +55,14 @@ export default async function AdminDashboardPage({
       </div>
 
       {/* 3. Grid de Métricas de Hoje vs Período */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         {/* MÉTRICAS DE HOJE */}
-        <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-6 text-left space-y-6">
+        <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-5 sm:p-6 text-left space-y-5 sm:space-y-6">
           <h2 className="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase tracking-widest flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
             Métricas de Hoje
           </h2>
-          <div className="flex flex-col sm:grid sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-2xl p-4 text-left">
               <p className="text-[10px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider">Faturamento</p>
               <p className="text-base sm:text-lg font-bold text-slate-800 dark:text-white mt-1">
@@ -98,12 +98,12 @@ export default async function AdminDashboardPage({
         </div>
 
         {/* MÉTRICAS DO PERÍODO */}
-        <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-6 text-left space-y-6">
+        <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-5 sm:p-6 text-left space-y-5 sm:space-y-6">
           <h2 className="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase tracking-widest flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
             Métricas do Período
           </h2>
-          <div className="flex flex-col sm:grid sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-2xl p-4 text-left">
               <p className="text-[10px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider">Faturamento Pix</p>
               <p className="text-base sm:text-lg font-bold text-slate-800 dark:text-white mt-1">
@@ -130,7 +130,7 @@ export default async function AdminDashboardPage({
       </div>
 
       {/* 4. Banner de Fluxo de Caixa Geral */}
-      <div className="bg-[#0d1e32] dark:bg-[#071322] text-white p-6 md:p-8 rounded-3xl border border-[#1e3a5f]/30 shadow-lg text-left flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-[#0d1e32] dark:bg-[#071322] text-white p-5 sm:p-6 md:p-8 rounded-3xl border border-[#1e3a5f]/30 shadow-lg text-left flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-1">
           <h3 className="text-sm font-bold text-sky-400 uppercase tracking-wider flex items-center gap-2">
             <span className="text-sky-500">$</span>
@@ -140,22 +140,22 @@ export default async function AdminDashboardPage({
             Faturamento bruto de depósitos Pix menos taxas do gateway Pix e custo total de consumo de APIs da DirectData.
           </p>
         </div>
-        <div className="grid grid-cols-2 sm:flex sm:flex-row flex-wrap items-start sm:items-center gap-6 sm:gap-8 md:gap-12 mt-6 md:mt-0 w-full md:w-auto min-w-0">
-          <div className="min-w-0">
+        <div className="grid grid-cols-1 sm:grid-cols-3 items-start sm:items-center gap-4 sm:gap-6 md:gap-12 mt-4 md:mt-0 w-full md:w-auto min-w-0">
+          <div className="min-w-0 bg-white/5 sm:bg-transparent p-3 sm:p-0 rounded-xl">
             <p className="text-[10px] font-bold text-white/50 uppercase tracking-widest">Depósitos Pix (Bruto)</p>
-            <p className="text-lg md:text-xl font-bold mt-1">
+            <p className="text-base sm:text-lg md:text-xl font-bold mt-1">
               R$ {advanced.monthlyRevenue.toFixed(2).replace('.', ',')}
             </p>
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 bg-white/5 sm:bg-transparent p-3 sm:p-0 rounded-xl">
             <p className="text-[10px] font-bold text-white/50 uppercase tracking-widest text-red-300">Taxas Pix Descontadas</p>
-            <p className="text-lg md:text-xl font-bold mt-1 text-red-400">
+            <p className="text-base sm:text-lg md:text-xl font-bold mt-1 text-red-400">
               -R$ {advanced.monthlyPixFees.toFixed(2).replace('.', ',')}
             </p>
           </div>
-          <div className="col-span-2 sm:col-span-1 min-w-0">
+          <div className="min-w-0 bg-white/5 sm:bg-transparent p-3 sm:p-0 rounded-xl">
             <p className="text-[10px] font-bold text-white/50 uppercase tracking-widest text-sky-300">Lucro Real Operacional</p>
-            <p className="text-lg md:text-xl font-bold mt-1 text-sky-400">
+            <p className="text-base sm:text-lg md:text-xl font-bold mt-1 text-sky-400">
               R$ {advanced.monthlyProfit.toFixed(2).replace('.', ',')}
             </p>
           </div>
@@ -163,7 +163,7 @@ export default async function AdminDashboardPage({
       </div>
 
       {/* 5. 5 Cards do Período */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
         {/* Card 1: Faturamento */}
         <div className="glass-panel p-5 rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm text-left flex flex-col justify-between hover:border-primary/25 transition-all">
           <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-[#2872fa] flex items-center justify-center mb-4">
@@ -221,7 +221,7 @@ export default async function AdminDashboardPage({
         </div>
 
         {/* Card 5: Novos Cadastros */}
-        <div className="glass-panel p-5 rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm text-left flex flex-col justify-between hover:border-blue-500/25 transition-all col-span-2 md:col-span-1">
+        <div className="glass-panel p-5 rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm text-left flex flex-col justify-between hover:border-blue-500/25 transition-all sm:col-span-2 lg:col-span-1">
           <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center mb-4">
             <Users className="w-4 h-4" />
           </div>
@@ -235,15 +235,15 @@ export default async function AdminDashboardPage({
         </div>
       </div>       
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-in fade-in duration-700">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 animate-in fade-in duration-700">
         {/* Gráfico de Faturamento Diário */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 min-w-0">
           <PerformanceChart data={advanced.chartData} />
         </div>
 
         {/* Top Serviços */}
-        <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-8">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+        <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-5 sm:p-8">
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
             <Activity className="w-5 h-5 text-primary" />
             Módulos mais Rentáveis
           </h2>
@@ -271,15 +271,15 @@ export default async function AdminDashboardPage({
       </div>
 
       {/* SEÇÃO 3: HISTÓRICO DE ÚLTIMOS DEPÓSITOS E CONSULTAS DO DIA */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12 animate-in fade-in duration-800">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mt-8 sm:mt-12 animate-in fade-in duration-800">
         {/* Últimos Depósitos */}
-        <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-8">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+        <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-5 sm:p-8">
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
             <DollarSign className="w-5 h-5 text-emerald-500" />
             Últimos Depósitos Recebidos
           </h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-600 dark:text-gray-300">
+          <div className="overflow-x-auto -mx-5 sm:mx-0 px-5 sm:px-0 scrollbar-thin">
+            <table className="w-full min-w-[500px] text-left text-sm text-slate-600 dark:text-gray-300">
               <thead className="text-xs uppercase bg-slate-50 dark:bg-black/20 text-slate-400 dark:text-gray-500 tracking-wider">
                 <tr>
                   <th className="px-4 py-3 rounded-l-xl">Usuário</th>
@@ -295,14 +295,14 @@ export default async function AdminDashboardPage({
                       <div className="font-bold text-slate-800 dark:text-white">{sale.user?.name || 'Cliente'}</div>
                       <div className="text-xs text-slate-400 dark:text-gray-500">{sale.user?.email}</div>
                     </td>
-                    <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-400">
+                    <td className="px-4 py-3 text-right font-bold text-emerald-600 dark:text-emerald-400 whitespace-nowrap">
                       R$ {sale.amount.toFixed(2).replace('.', ',')}
                     </td>
-                    <td className="px-4 py-3 text-center text-xs text-slate-500">
+                    <td className="px-4 py-3 text-center text-xs text-slate-500 whitespace-nowrap">
                       {new Date(sale.createdAt).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })}{' '}
                       {new Date(sale.createdAt).toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit' })}
                     </td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-4 py-3 text-center whitespace-nowrap">
                       <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-green-500/10 text-green-600 dark:text-green-400">
                         Sucesso
                       </span>
@@ -322,13 +322,13 @@ export default async function AdminDashboardPage({
         </div>
 
         {/* Consultas Realizadas Hoje */}
-        <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-8">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+        <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-5 sm:p-8">
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
             <Search className="w-5 h-5 text-primary" />
             Consultas Realizadas Hoje
           </h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-600 dark:text-gray-300">
+          <div className="overflow-x-auto -mx-5 sm:mx-0 px-5 sm:px-0 scrollbar-thin">
+            <table className="w-full min-w-[320px] text-left text-sm text-slate-600 dark:text-gray-300">
               <thead className="text-xs uppercase bg-slate-50 dark:bg-black/20 text-slate-400 dark:text-gray-500 tracking-wider">
                 <tr>
                   <th className="px-4 py-3 rounded-l-xl">Módulo de Consulta</th>
@@ -341,7 +341,7 @@ export default async function AdminDashboardPage({
                     <td className="px-4 py-3 font-bold text-slate-800 dark:text-white uppercase tracking-tighter">
                       {q.target.replace(/-/g, ' ')}
                     </td>
-                    <td className="px-4 py-3 text-center font-bold text-primary">
+                    <td className="px-4 py-3 text-center font-bold text-primary whitespace-nowrap">
                       {q.count} {q.count === 1 ? 'consulta' : 'consultas'}
                     </td>
                   </tr>
@@ -360,15 +360,15 @@ export default async function AdminDashboardPage({
       </div>
 
       {/* Tabela de Atribuição por Origem de Tráfego (UTMs) */}
-      <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-8 mt-12 animate-in fade-in duration-1000">
-        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+      <div className="glass-panel rounded-3xl border border-slate-200 dark:border-white/5 bg-white dark:bg-card shadow-sm p-5 sm:p-8 mt-8 sm:mt-12 animate-in fade-in duration-1000">
+        <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
           <Globe className="w-5 h-5 text-primary" />
           Atribuição de Tráfego (Canais & UTMs)
         </h2>
-        <p className="text-sm text-slate-500 dark:text-gray-400 mb-6">Acompanhe a origem dos cadastros, o faturamento gerado por cada canal e o retorno sobre investimento (ROI).</p>
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-gray-400 mb-6">Acompanhe a origem dos cadastros, o faturamento gerado por cada canal e o retorno sobre investimento (ROI).</p>
         
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600 dark:text-gray-300">
+        <div className="overflow-x-auto -mx-5 sm:mx-0 px-5 sm:px-0 scrollbar-thin">
+          <table className="w-full min-w-[700px] text-left text-sm text-slate-600 dark:text-gray-300">
             <thead className="text-xs uppercase bg-slate-50 dark:bg-black/20 text-slate-400 dark:text-gray-500 tracking-wider">
               <tr>
                 <th className="px-6 py-4 rounded-l-2xl">Canal de Origem</th>

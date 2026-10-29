@@ -321,21 +321,21 @@ export default function GerenciadorBlog({ initialArticles, initialCategories }: 
     <div className="space-y-6">
       
       {/* Abas */}
-      <div className="flex border-b border-slate-200 dark:border-white/10">
+      <div className="flex border-b border-slate-200 dark:border-white/10 overflow-x-auto scrollbar-none">
         <button
           onClick={() => setActiveTab('articles')}
-          className={`px-5 py-3 text-sm font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer ${
+          className={`px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-bold flex items-center gap-2 border-b-2 transition-all whitespace-nowrap cursor-pointer ${
             activeTab === 'articles'
               ? 'border-blue-600 text-blue-600'
               : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-white'
           }`}
         >
           <BookOpen className="w-4 h-4" />
-          Artigos Publicados ({articles.length})
+          Artigos ({articles.length})
         </button>
         <button
           onClick={() => setActiveTab('categories')}
-          className={`px-5 py-3 text-sm font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer ${
+          className={`px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-bold flex items-center gap-2 border-b-2 transition-all whitespace-nowrap cursor-pointer ${
             activeTab === 'categories'
               ? 'border-blue-600 text-blue-600'
               : 'border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-white'
@@ -349,8 +349,8 @@ export default function GerenciadorBlog({ initialArticles, initialCategories }: 
       {activeTab === 'articles' ? (
         <>
           {/* Ações superiores */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="relative flex-grow max-w-md">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
+            <div className="relative flex-grow max-w-full sm:max-w-md">
               <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
                 <Search className="w-4 h-4" />
               </span>
@@ -359,23 +359,23 @@ export default function GerenciadorBlog({ initialArticles, initialCategories }: 
                 placeholder="Pesquisar artigos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-card text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm transition-all"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-card text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 text-xs sm:text-sm transition-all shadow-sm"
               />
             </div>
 
             <button
               onClick={openCreateModal}
-              className="flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-all shadow-md active:scale-95 cursor-pointer"
+              className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 text-xs sm:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-all shadow-md active:scale-95 cursor-pointer shrink-0"
             >
-              <Plus className="w-4.5 h-4.5" />
+              <Plus className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               Novo Artigo do Blog
             </button>
           </div>
 
           {/* Tabela de Artigos */}
-          <div className="glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-card shadow-sm">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-slate-700 dark:text-gray-300">
+          <div className="glass-panel rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-card shadow-sm hover:shadow-md transition-all">
+            <div className="overflow-x-auto scrollbar-thin">
+              <table className="w-full min-w-[750px] text-left text-sm text-slate-700 dark:text-gray-300">
                 <thead className="bg-slate-50 dark:bg-black/40 text-xs uppercase text-slate-500 font-bold border-b border-slate-200 dark:border-white/5">
                   <tr>
                     <th className="px-6 py-4">Artigo</th>
@@ -542,25 +542,25 @@ export default function GerenciadorBlog({ initialArticles, initialCategories }: 
 
       {/* Modal Criar/Editar Artigo */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="relative w-full max-w-4xl bg-white dark:bg-card border border-slate-200 dark:border-white/10 rounded-3xl shadow-2xl my-8 max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-2 sm:p-4 overflow-y-auto">
+          <div className="relative w-full max-w-[95vw] sm:max-w-4xl bg-white dark:bg-card border border-slate-200 dark:border-white/10 rounded-2xl sm:rounded-3xl shadow-2xl my-auto max-h-[92vh] flex flex-col overflow-hidden">
             
             {/* Header */}
-            <div className="p-6 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
-              <h2 className="text-xl font-black text-[#243b56] dark:text-white flex items-center gap-2">
-                <BookOpen className="text-blue-500 w-5 h-5" />
-                {editingArticle ? 'Editar Artigo' : 'Escrever Novo Artigo'}
+            <div className="p-4 sm:p-6 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
+              <h2 className="text-base sm:text-xl font-black text-[#243b56] dark:text-white flex items-center gap-2 truncate">
+                <BookOpen className="text-blue-500 w-5 h-5 shrink-0" />
+                <span className="truncate">{editingArticle ? 'Editar Artigo' : 'Escrever Novo Artigo'}</span>
               </h2>
               <button 
                 onClick={() => setModalOpen(false)}
-                className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-slate-600 dark:hover:text-white"
+                className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 hover:text-slate-600 dark:hover:text-white shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Formulário */}
-            <form onSubmit={handleSubmitArticle} className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+            <form onSubmit={handleSubmitArticle} className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
               
               {/* Título e Slug */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -883,14 +883,14 @@ export default function GerenciadorBlog({ initialArticles, initialCategories }: 
             </form>
 
             {/* Footer com Ações */}
-            <div className="p-6 border-t border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-black/20 rounded-b-3xl flex justify-between gap-3 items-center">
+            <div className="p-4 sm:p-6 border-t border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-black/20 rounded-b-2xl sm:rounded-b-3xl flex flex-col sm:flex-row justify-between gap-3 items-stretch sm:items-center">
               <div>
                 {editingArticle && (
                   <a
                     href={`/blog/${editingArticle.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-xs font-bold text-slate-700 dark:text-white rounded-xl transition-all shadow-sm flex items-center gap-1"
+                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-xs font-bold text-slate-700 dark:text-white rounded-xl transition-all shadow-sm flex items-center justify-center gap-1 w-full sm:w-auto"
                   >
                     <Eye className="w-3.5 h-3.5" />
                     Visualizar no Blog
@@ -898,11 +898,11 @@ export default function GerenciadorBlog({ initialArticles, initialCategories }: 
                 )}
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3 justify-end">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-5 py-3 text-xs md:text-sm font-bold text-slate-500 hover:text-slate-900 border border-slate-200 dark:border-white/10 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-all cursor-pointer"
+                  className="flex-1 sm:flex-initial px-4 sm:px-5 py-2.5 sm:py-3 text-xs md:text-sm font-bold text-slate-500 hover:text-slate-900 border border-slate-200 dark:border-white/10 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-all cursor-pointer text-center"
                 >
                   Cancelar
                 </button>
@@ -910,10 +910,10 @@ export default function GerenciadorBlog({ initialArticles, initialCategories }: 
                   type="button"
                   onClick={handleSubmitArticle}
                   disabled={loading || uploadingImage}
-                  className="px-6 py-3 text-xs md:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-all shadow-md hover:shadow-blue-500/10 disabled:opacity-50 inline-flex items-center gap-2 cursor-pointer"
+                  className="flex-1 sm:flex-initial px-5 sm:px-6 py-2.5 sm:py-3 text-xs md:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-all shadow-md hover:shadow-blue-500/10 disabled:opacity-50 inline-flex items-center justify-center gap-2 cursor-pointer text-center"
                 >
-                  {loading ? <Loader2 className="w-4.5 h-4.5 animate-spin" /> : <Save className="w-4.5 h-4.5" />}
-                  {editingArticle ? 'Salvar Alterações' : 'Criar Artigo'}
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                  {editingArticle ? 'Salvar' : 'Criar Artigo'}
                 </button>
               </div>
             </div>

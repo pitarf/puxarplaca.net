@@ -68,24 +68,24 @@ export default function BloqueiosClient({ initialBlockedList }: { initialBlocked
   );
 
   return (
-    <div className="space-y-8 text-left">
+    <div className="space-y-6 sm:space-y-8 text-left">
       {/* Form de Adicionar Bloqueio */}
-      <div className="bg-white dark:bg-card border border-slate-200 dark:border-white/5 rounded-3xl p-6 md:p-8 shadow-sm">
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-          <Ban className="w-5 h-5 text-red-500" />
-          Bloquear Novo CPF, CNPJ, Placa, Telefone ou Nome
+      <div className="bg-white dark:bg-card border border-slate-200 dark:border-white/5 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm">
+        <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2 sm:mb-4 flex items-center gap-2">
+          <Ban className="w-5 h-5 text-red-500 shrink-0" />
+          <span>Bloquear Novo CPF, CNPJ, Placa, Telefone ou Nome</span>
         </h2>
         <p className="text-xs text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
           Os dados inseridos aqui serão bloqueados para consultas em todos os módulos da plataforma imediatamente.
         </p>
 
-        <form onSubmit={handleAddBlock} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+        <form onSubmit={handleAddBlock} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
           <div>
-            <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Tipo de Dado</label>
+            <label className="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase mb-2">Tipo de Dado</label>
             <select
               value={type}
               onChange={(e) => setType(e.target.value as any)}
-              className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/5 rounded-2xl p-3.5 text-sm font-semibold text-slate-800 dark:text-white outline-none focus:border-red-500"
+              className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/5 rounded-xl sm:rounded-2xl p-3 text-xs sm:text-sm font-semibold text-slate-800 dark:text-white outline-none focus:border-red-500"
             >
               <option value="CPF">CPF</option>
               <option value="TELEFONE">Telefone</option>
@@ -96,7 +96,7 @@ export default function BloqueiosClient({ initialBlockedList }: { initialBlocked
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-500 uppercase mb-2">
+            <label className="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase mb-2 truncate">
               {type === 'NOME' ? 'Nome Completo (Mín. 2 palavras)' : type === 'PLACA' ? 'Placa do Veículo' : 'Valor (apenas números)'}
             </label>
             <input
@@ -105,18 +105,18 @@ export default function BloqueiosClient({ initialBlockedList }: { initialBlocked
               onChange={(e) => setValue(e.target.value)}
               placeholder={type === 'PLACA' ? 'ABC1D23 ou ABC-1234' : type === 'NOME' ? 'Ex: João da Silva Sauro' : 'Apenas números'}
               required
-              className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/5 rounded-2xl p-3.5 text-sm font-semibold text-slate-800 dark:text-white outline-none focus:border-red-500"
+              className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/5 rounded-xl sm:rounded-2xl p-3 text-xs sm:text-sm font-semibold text-slate-800 dark:text-white outline-none focus:border-red-500"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Motivo (Opcional)</label>
+            <label className="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase mb-2">Motivo (Opcional)</label>
             <input
               type="text"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder="Ex: LGPD / Solicitação Titular"
-              className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/5 rounded-2xl p-3.5 text-sm font-semibold text-slate-800 dark:text-white outline-none focus:border-red-500"
+              className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/5 rounded-xl sm:rounded-2xl p-3 text-xs sm:text-sm font-semibold text-slate-800 dark:text-white outline-none focus:border-red-500"
             />
           </div>
 
@@ -124,7 +124,7 @@ export default function BloqueiosClient({ initialBlockedList }: { initialBlocked
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transition-all disabled:opacity-50 active:scale-95 text-sm text-center uppercase tracking-wider"
+              className="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3.5 sm:py-4 px-4 sm:px-6 rounded-xl sm:rounded-2xl shadow-lg transition-all disabled:opacity-50 active:scale-95 text-xs sm:text-sm text-center uppercase tracking-wider cursor-pointer"
             >
               {loading ? 'Bloqueando...' : 'Aplicar Bloqueio'}
             </button>
@@ -133,10 +133,10 @@ export default function BloqueiosClient({ initialBlockedList }: { initialBlocked
       </div>
 
       {/* Lista de Bloqueios */}
-      <div className="bg-white dark:bg-card border border-slate-200 dark:border-white/5 rounded-3xl p-6 md:p-8 shadow-sm">
+      <div className="bg-white dark:bg-card border border-slate-200 dark:border-white/5 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-emerald-500" />
               Lista de Bloqueios Ativos
             </h2>
@@ -150,15 +150,15 @@ export default function BloqueiosClient({ initialBlockedList }: { initialBlocked
               placeholder="Pesquisar bloqueios..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/5 rounded-2xl pl-10 pr-4 py-2.5 text-sm text-slate-800 dark:text-white outline-none focus:border-red-500"
+              className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-xl sm:rounded-2xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-800 dark:text-white outline-none focus:border-red-500"
             />
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
           </div>
         </div>
 
         {/* Tabela de registros */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600 dark:text-gray-300">
+        <div className="overflow-x-auto -mx-5 sm:mx-0 px-5 sm:px-0 scrollbar-thin">
+          <table className="w-full min-w-[650px] text-left text-sm text-slate-600 dark:text-gray-300">
             <thead className="text-xs uppercase bg-slate-50 dark:bg-black/20 text-slate-400 dark:text-gray-500 tracking-wider">
               <tr>
                 <th className="px-6 py-4 rounded-l-2xl">Tipo</th>

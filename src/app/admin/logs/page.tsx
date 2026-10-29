@@ -25,29 +25,29 @@ export default async function AdminLogsPage() {
 
   return (
     <div className="max-w-6xl mx-auto pb-20">
-      <div className="mb-8 border-b border-slate-200 dark:border-white/10 pb-6">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
-          <Activity className="text-primary w-8 h-8" />
+      <div className="mb-6 sm:mb-8 border-b border-slate-200 dark:border-white/10 pb-4 sm:pb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white flex items-center gap-2.5 sm:gap-3">
+          <Activity className="text-primary w-7 h-7 sm:w-8 sm:h-8" />
           Logs do Sistema
         </h1>
-        <p className="text-slate-500 dark:text-gray-400 mt-2">Monitoramento de eventos, erros e atividades críticas da plataforma.</p>
+        <p className="text-slate-500 dark:text-gray-400 mt-1.5 sm:mt-2 text-xs sm:text-sm">Monitoramento de eventos, erros e atividades críticas da plataforma.</p>
       </div>
 
       <div className="space-y-4">
         {logs.map((log) => (
-          <div key={log.id} className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-2xl p-6 hover:border-slate-300 dark:hover:border-white/20 transition-all">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-              <div className="flex items-center gap-3">
-                <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold border ${getLevelStyles(log.level)}`}>
+          <div key={log.id} className="bg-white dark:bg-card border border-slate-200 dark:border-white/10 shadow-sm rounded-2xl p-4 sm:p-6 hover:border-slate-300 dark:hover:border-white/20 transition-all">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 mb-3 sm:mb-4">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className={`flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] font-bold border ${getLevelStyles(log.level)}`}>
                   {getLevelIcon(log.level)}
                   {log.level}
                 </div>
-                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-gray-400">
+                <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-500 dark:text-gray-400">
                   <Clock className="w-3 h-3" />
                   {new Date(log.createdAt).toLocaleString('pt-BR')}
                 </div>
               </div>
-              <div className="text-[10px] text-slate-400 dark:text-gray-500 font-mono select-all bg-slate-50 dark:bg-white/5 px-2 py-1 rounded border border-slate-200 dark:border-white/5">
+              <div className="text-[10px] text-slate-400 dark:text-gray-500 font-mono select-all bg-slate-50 dark:bg-white/5 px-2 py-0.5 rounded border border-slate-200 dark:border-white/5 w-fit">
                 ID: {log.id}
               </div>
             </div>
