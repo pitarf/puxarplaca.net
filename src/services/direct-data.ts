@@ -535,16 +535,16 @@ function transformDirectDataPlus(raw: any, selectedModules: string[]) {
   const result: any = {};
   if (selectedModules.includes('dados_basicos') || selectedModules.includes('documentos')) {
     result['Dados_Pessoais'] = {
-      nome: raw.nome,
+      nome: raw.nome || raw.nome_completo,
       cpf: raw.cpf,
       sexo: raw.sexo,
-      data_nascimento: raw.dataNascimento,
+      data_nascimento: raw.dataNascimento || raw.nascimento,
       idade: raw.idade,
       signo: raw.signo,
-      nome_mae: raw.nomeMae,
-      nome_pai: raw.nomePai,
+      nome_mae: raw.nomeMae || raw.mae || raw.nome_mae,
+      nome_pai: raw.nomePai || raw.pai || raw.nome_pai,
       situacao_cadastral: raw.situacaoCadastral,
-      data_situacao: raw.dataSituacaoCadastral,
+      data_situacao: raw.dataSituacaoCadastral || raw.dataSituacao,
       obito: raw.obito
     };
   }
