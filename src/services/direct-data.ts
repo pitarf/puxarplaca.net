@@ -36,7 +36,7 @@ async function getDirectDataConfig() {
   return { token, baseUrl, v3Url };
 }
 
-// Agente para ignorar erros de SSL na V3 com timeout global seguro de 18s (evita cancelamentos precoces em picos da DirectData)
+// Agente para ignorar erros de SSL na V3 com timeout global seguro calibrado para consultas pesadas (18s)
 const axiosV3 = axios.create({
   httpsAgent: new https.Agent({ rejectUnauthorized: false }),
   timeout: 18000
@@ -350,24 +350,22 @@ export async function performSmartSearch(
         }
         
         if (filterRes?.success && filterRes?.listFilters && filterRes.listFilters.length > 0) {
-          const sanitizeCandidateStr = (val: any) => {
-            if (!val || typeof val !== 'string') return val;
-            const t = val.trim();
-            if (t.toLowerCase().includes('desconhecid') || t.toUpperCase() === 'XX' || t === 'N/I') return null;
-            return t;
-          };
-
+          const totalCand = filterRes.listFilters.length;
           return {
             success: true,
             isMultiple: true,
-            candidates: filterRes.listFilters.map((c: any) => ({
+            candidates: filterRes.listFilters.map((c: any, idx: number) => ({
               id: c.id,
-              name: c.fullName || c.name || (isPhone ? phone : cleanQuery),
-              dateOfBirth: c.dateOfBirth,
-              motherName: sanitizeCandidateStr(c.motherName),
-              taxIdNumber: c.cpf || c.taxIdNumber, // CPF mascarado
-              state: sanitizeCandidateStr(c.state),
-              city: sanitizeCandidateStr(c.city)
+              // Em buscas por telefone, oculta o nome real para não entregar a resposta antes do pagamento
+              name: isPhone 
+                ? (totalCand > 1 ? `Titular Vinculado (Perfil ${idx + 1})` : 'Titular do Telefone')
+                : (c.fullName || c.name || cleanQuery),
+              dateOfBirth: null, // Oculto na prévia
+              motherName: null,  // Oculto na prévia
+              taxIdNumber: c.cpf || c.taxIdNumber, // Apenas os 3 dígitos do CPF com máscara
+              state: null,
+              city: null,
+              isPhoneSearch: isPhone
             }))
           };
         }
@@ -475,7 +473,7 @@ export async function consultaProcessos(cpfOrCnpj: string) {
   const url = `${v3Url}/api/ProcessosJudiciaisCompleta?TOKEN=${token}&${paramName}=${cleanDoc}`;
 
   try {
-    const response = await axiosV3.get(url, { timeout: 18000 });
+    const response = await axiosV3.get(url, { timeout: 15000 });
     const res = response.data;
 
     if (res.retorno) {
@@ -495,7 +493,7 @@ export async function consultaProcessos(cpfOrCnpj: string) {
 
 /**
  * Helper para enriquecer dados de filiação (Nome da Mãe/Pai) e parentes via Pesquisa Avançada V2
- * Acionado automaticamente quando a consulta de CPF retorna sem nome da mãe cadastrado na V3.
+ * Acionado automaticamente quando a consulta de CPF retorna sem nome da mãe cadastrado.
  */
 async function enriquecerFiliacaoViaV2(nome: string, cpfLimpo: string): Promise<{ nomeMae?: string | null; nomePai?: string | null; rg?: string | null; parentescos?: any[] } | null> {
   try {
@@ -612,7 +610,7 @@ export async function consultaCpfPlus(cpf: string, selectedModules: string[] = [
       message: sanitizeApiErrorMessage(rawMsg, 'cpf'),
       rawMessage: rawMsg,
       resultadoId: res.metaDados?.resultadoId,
-      provider: 'DirectData V3'
+      provider: 'DirectData V3 Plus'
     };
   } catch (error: any) {
     const apiMessage = error.response?.data?.error?.message || error.response?.data?.metaDados?.mensagem || error.message;
@@ -620,28 +618,29 @@ export async function consultaCpfPlus(cpf: string, selectedModules: string[] = [
       success: false, 
       message: sanitizeApiErrorMessage(apiMessage, 'cpf'),
       rawMessage: apiMessage,
-      provider: 'DirectData V3'
+      provider: 'DirectData V3 Plus'
     };
   }
 }
 
 function transformDirectDataPlus(raw: any, selectedModules: string[]) {
   const result: any = {};
-  if (selectedModules.includes('dados_basicos') || selectedModules.includes('documentos')) {
-    result['Dados_Pessoais'] = {
-      nome: raw.nome || raw.nome_completo,
-      cpf: raw.cpf,
-      sexo: raw.sexo,
-      data_nascimento: raw.dataNascimento || raw.nascimento,
-      idade: raw.idade,
-      signo: raw.signo,
-      nome_mae: raw.nomeMae || raw.mae || raw.nome_mae,
-      nome_pai: raw.nomePai || raw.pai || raw.nome_pai,
-      situacao_cadastral: raw.situacaoCadastral,
-      data_situacao: raw.dataSituacaoCadastral || raw.dataSituacao,
-      obito: raw.obito
-    };
-  }
+
+  // Dados Pessoais / Identificação Básica (sempre inclusos para garantir identificação e transparência da filiação do titular)
+  result['Dados_Pessoais'] = {
+    nome: raw.nome,
+    cpf: raw.cpf,
+    rg: raw.rg || undefined,
+    sexo: raw.sexo,
+    data_nascimento: raw.dataNascimento,
+    idade: raw.idade,
+    signo: raw.signo,
+    nome_mae: raw.nomeMae || 'Não informado / Não consta na base federal',
+    nome_pai: raw.nomePai || 'Não informado / Não consta na base federal',
+    situacao_cadastral: raw.situacaoCadastral,
+    data_situacao: raw.dataSituacaoCadastral,
+    obito: raw.obito
+  };
   if (selectedModules.includes('telefones')) {
     result['Telefones'] = {
       lista: Array.isArray(raw.telefones) ? raw.telefones.map((t: any) => {

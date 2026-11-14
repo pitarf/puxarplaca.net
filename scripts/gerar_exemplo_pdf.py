@@ -1,0 +1,395 @@
+import os
+import json
+import re
+from playwright.sync_api import sync_playwright
+
+# Lê o arquivo src/utils/pdf-report.ts e extrai a função de geração ou recria o template idêntico
+mock_data = {
+    "Dados_Gerais_do_Veiculo": {
+        "placa": "BRA2E19",
+        "marca_modelo": "HONDA/CIVIC TOURING CVT",
+        "ano_fabricacao": "2021",
+        "ano_modelo": "2022",
+        "cor": "BRANCA TAFETA",
+        "combustivel": "GASOLINA",
+        "potencia_cilindradas": "173 CV / 1498 CC",
+        "chassi": "93HFC1670MZ10****",
+        "renavam": "01234567890",
+        "municipio_emplacamento": "SAO PAULO",
+        "uf": "SP",
+        "situacao_veiculo": "CIRCULACAO REGULAR"
+    },
+    "Proprietario_Atual": {
+        "nome_proprietario": "CARLOS EDUARDO SILVEIRA",
+        "documento": "284.912.838-10",
+        "tipo_documento": "CPF",
+        "tipo_pessoa": "FISICA"
+    },
+    "Restricoes_e_Alertas": {
+        "restricao_roubo_furto": "NADA CONSTA",
+        "alerta_leilao": "SEM REGISTRO DE LEILAO",
+        "restricao_renajud": "NADA CONSTA",
+        "alienacao_fiduciaria": "BANCO HONDA S.A."
+    },
+    "Debitos_e_Multas": {
+        "ipva_exercicio_atual": "QUITADO",
+        "licenciamento_anual": "EM DIA",
+        "total_multas": "R$ 0,00",
+        "seguro_dpvat": "ISENTO"
+    }
+}
+
+# Carrega o HTML base diretamente da implementação de pdf-report.ts
+html_content = f"""<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dossiê Veicular Completo - PuxarPlaca</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+
+    body {{
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #0f172a;
+      background-color: #f8fafc;
+      line-height: 1.5;
+      font-size: 12px;
+      -webkit-font-smoothing: antialiased;
+    }}
+
+    .action-bar {{
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }}
+
+    .action-bar-info {{ display: flex; align-items: center; gap: 12px; font-size: 13px; }}
+
+    .action-bar-badge {{
+      background: rgba(99, 102, 241, 0.2);
+      color: #818cf8;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+    }}
+
+    .action-buttons {{ display: flex; gap: 10px; }}
+
+    .btn {{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }}
+
+    .btn-primary {{ background: #4f46e5; color: #ffffff; }}
+    .btn-secondary {{ background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.2); }}
+
+    .document-page {{
+      max-width: 860px;
+      margin: 24px auto;
+      background: #ffffff;
+      padding: 36px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e2e8f0;
+    }}
+
+    .report-header {{
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }}
+
+    .brand-title {{
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+    }}
+
+    .brand-dot {{
+      width: 10px;
+      height: 10px;
+      background: #4f46e5;
+      border-radius: 50%;
+      display: inline-block;
+    }}
+
+    .report-subtitle {{
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 4px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }}
+
+    .header-meta {{ text-align: right; font-size: 11px; color: #475569; }}
+
+    .confidential-tag {{
+      display: inline-block;
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }}
+
+    .meta-line {{ margin-top: 2px; font-size: 10.5px; }}
+    .meta-line strong {{ color: #0f172a; }}
+
+    .section-card {{
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }}
+
+    .section-header {{
+      background: #0f172a;
+      color: #ffffff;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }}
+
+    .section-body {{ padding: 14px; }}
+
+    .fields-grid {{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px 16px;
+    }}
+
+    .fields-grid-3 {{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px 16px;
+    }}
+
+    .field-item {{
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 5px;
+    }}
+
+    .field-label {{
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }}
+
+    .field-value {{
+      font-size: 12px;
+      font-weight: 600;
+      color: #0f172a;
+      word-break: break-word;
+    }}
+
+    .badge-status {{
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      width: fit-content;
+    }}
+    .badge-success {{ background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }}
+    .badge-alert {{ background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }}
+    .badge-danger {{ background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }}
+    .badge-info {{ background: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe; }}
+
+    .report-footer {{
+      margin-top: 30px;
+      border-top: 1px solid #cbd5e1;
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9.5px;
+      color: #64748b;
+    }}
+
+    .legal-warning {{ max-width: 65%; line-height: 1.4; }}
+    .security-stamp {{ text-align: right; font-family: monospace; font-weight: 600; }}
+
+    @media print {{
+      body {{ background-color: #ffffff !important; font-size: 11px !important; }}
+      .action-bar {{ display: none !important; }}
+      .document-page {{ margin: 0 !important; padding: 0 !important; box-shadow: none !important; border: none !important; width: 100% !important; max-width: 100% !important; }}
+      .section-card {{ border-color: #cbd5e1 !important; break-inside: avoid !important; page-break-inside: avoid !important; }}
+      .section-header {{ background: #0f172a !important; color: #ffffff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }}
+      .badge-status {{ -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }}
+      @page {{ size: A4 portrait; margin: 14mm 10mm 14mm 10mm; }}
+    }}
+  </style>
+</head>
+<body>
+  <div class="action-bar no-print">
+    <div class="action-bar-info">
+      <span class="action-bar-badge">Visualização de Impressão</span>
+      <span>Dossiê pronto para exportação em PDF.</span>
+    </div>
+    <div class="action-buttons">
+      <button class="btn btn-secondary">Fechar</button>
+      <button class="btn btn-primary">Salvar em PDF / Imprimir</button>
+    </div>
+  </div>
+
+  <div class="document-page">
+    <header class="report-header">
+      <div>
+        <div class="brand-title">
+          <span class="brand-dot"></span>
+          PUXARPLACA
+        </div>
+        <div class="report-subtitle">Dossiê Veicular Completo & Relatório de Inteligência</div>
+      </div>
+      <div class="header-meta">
+        <div class="confidential-tag">DOCUMENTO CONFIDENCIAL</div>
+        <div class="meta-line">Protocolo: <strong>DOSSIE-20261103-9A8B7C</strong></div>
+        <div class="meta-line">Emissão: <strong>03/11/2026 14:26:00</strong></div>
+        <div class="meta-line">Termo Consultado: <strong>BRA2E19</strong></div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Seção 1: Dados Gerais -->
+      <div class="section-card">
+        <div class="section-header"><span>Dados Gerais do Veículo</span></div>
+        <div class="section-body">
+          <div class="fields-grid">
+            <div class="field-item"><span class="field-label">Placa</span><span class="field-value" style="font-family: monospace; font-size: 13px;">BRA2E19</span></div>
+            <div class="field-item"><span class="field-label">Marca / Modelo</span><span class="field-value">HONDA/CIVIC TOURING CVT</span></div>
+            <div class="field-item"><span class="field-label">Ano Fabricação / Modelo</span><span class="field-value">2021 / 2022</span></div>
+            <div class="field-item"><span class="field-label">Cor</span><span class="field-value">BRANCA TAFETA</span></div>
+            <div class="field-item"><span class="field-label">Combustível</span><span class="field-value">GASOLINA</span></div>
+            <div class="field-item"><span class="field-label">Potência / Cilindradas</span><span class="field-value">173 CV / 1498 CC</span></div>
+            <div class="field-item"><span class="field-label">Chassi</span><span class="field-value" style="font-family: monospace;">93HFC1670MZ10****</span></div>
+            <div class="field-item"><span class="field-label">Renavam</span><span class="field-value" style="font-family: monospace;">01234567890</span></div>
+            <div class="field-item"><span class="field-label">Município / UF</span><span class="field-value">SÃO PAULO / SP</span></div>
+            <div class="field-item"><span class="field-label">Situação Cadastral</span><span class="field-value"><span class="badge-status badge-success">CIRCULAÇÃO REGULAR</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 2: Proprietário Atual -->
+      <div class="section-card">
+        <div class="section-header"><span>Proprietário Atual</span></div>
+        <div class="section-body">
+          <div class="fields-grid">
+            <div class="field-item"><span class="field-label">Nome Completo</span><span class="field-value">CARLOS EDUARDO SILVEIRA</span></div>
+            <div class="field-item"><span class="field-label">Documento Principal (CPF)</span><span class="field-value" style="font-family: monospace;">284.912.838-10</span></div>
+            <div class="field-item"><span class="field-label">Tipo de Pessoa</span><span class="field-value">FÍSICA</span></div>
+            <div class="field-item"><span class="field-label">Participação / Vínculo</span><span class="field-value">PROPRIETÁRIO REGISTRADO NO DETRAN</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 3: Restrições e Indicadores -->
+      <div class="section-card">
+        <div class="section-header"><span>Restrições e Indicadores de Segurança</span></div>
+        <div class="section-body">
+          <div class="fields-grid">
+            <div class="field-item"><span class="field-label">Ocorrência de Roubo/Furto</span><span class="field-value"><span class="badge-status badge-success">NADA CONSTA</span></span></div>
+            <div class="field-item"><span class="field-label">Histórico de Leilão</span><span class="field-value"><span class="badge-status badge-success">SEM HISTÓRICO DE LEILÃO</span></span></div>
+            <div class="field-item"><span class="field-label">Bloqueio Judicial (RENAJUD)</span><span class="field-value"><span class="badge-status badge-success">NADA CONSTA</span></span></div>
+            <div class="field-item"><span class="field-label">Alienação Fiduciária</span><span class="field-value"><span class="badge-status badge-alert">BANCO HONDA S.A.</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 4: Débitos e Multas -->
+      <div class="section-card">
+        <div class="section-header"><span>Débitos, Multas e Licenciamento</span></div>
+        <div class="section-body">
+          <div class="fields-grid">
+            <div class="field-item"><span class="field-label">IPVA Exercício 2026</span><span class="field-value"><span class="badge-status badge-success">QUITADO</span></span></div>
+            <div class="field-item"><span class="field-label">Licenciamento Anual</span><span class="field-value"><span class="badge-status badge-success">EM DIA</span></span></div>
+            <div class="field-item"><span class="field-label">Multas Ativas Detran / PRF</span><span class="field-value" style="color: #15803d; font-weight: 700;">R$ 0,00</span></div>
+            <div class="field-item"><span class="field-label">Taxa DPVAT / SPVAT</span><span class="field-value">ISENTO</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="report-footer">
+      <div class="legal-warning">
+        <strong>Conformidade LGPD (Lei nº 13.709/2018):</strong> Relatório gerado exclusivamente para finalidades legítimas e juridicamente fundamentadas. O solicitante assume total responsabilidade legal pelo sigilo e tratamento posterior das informações.
+      </div>
+      <div class="security-stamp">
+        PUXARPLACA<br>
+        AUTENTICAÇÃO: VERIFICADA
+      </div>
+    </footer>
+  </div>
+</body>
+</html>"""
+
+output_html_path = os.path.abspath("exemplo_dossie_veicular.html")
+with open(output_html_path, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print(f"HTML salvo em: {output_html_path}")
+
+# Gera o PDF real com Playwright em modo de impressão (PDF)
+output_pdf_path = os.path.abspath("exemplo_dossie_veicular.pdf")
+with sync_playwright() as p:
+    browser = p.chromium.launch()
+    page = browser.new_page()
+    page.goto(f"file:///{output_html_path}")
+    page.emulate_media(media="print")
+    page.pdf(
+        path=output_pdf_path,
+        format="A4",
+        print_background=True,
+        margin={"top": "14mm", "bottom": "14mm", "left": "10mm", "right": "10mm"}
+    )
+    browser.close()
+
+print(f"PDF real gerado com sucesso em: {output_pdf_path}")
