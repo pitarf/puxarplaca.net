@@ -44,7 +44,6 @@ export function formatCandidateTitle(name: string | undefined | null, isPhone: b
  * Blindada para exibir a mensagem convidativa até a efetivação da consulta.
  */
 export function formatCandidateLocation(city?: string | null, state?: string | null): { text: string; isPlaceholder: boolean } {
-  // Na prévia, mantém sempre blindado como 'Resultado após confirmar e consultar'
   return { text: MENSAGEM_LIBERACAO, isPlaceholder: true };
 }
 
@@ -53,7 +52,6 @@ export function formatCandidateLocation(city?: string | null, state?: string | n
  * Blindada para nunca exibir o nome ou sobrenome da mãe antes do pagamento.
  */
 export function formatCandidateMother(motherName?: string | null): { text: string; isPlaceholder: boolean } {
-  // Na prévia, mantém sempre blindado como 'Resultado após confirmar e consultar'
   return { text: MENSAGEM_LIBERACAO, isPlaceholder: true };
 }
 
@@ -62,18 +60,32 @@ export function formatCandidateMother(motherName?: string | null): { text: strin
  * Blindada para nunca exibir o ano ou data de nascimento antes do pagamento.
  */
 export function formatCandidateBirth(dateOfBirth?: string | null): { text: string; isPlaceholder: boolean } {
-  // Na prévia, mantém sempre blindado como 'Resultado após confirmar e consultar'
   return { text: MENSAGEM_LIBERACAO, isPlaceholder: true };
 }
 
 /**
  * Formata o CPF do candidato para a exibição de prévia.
- * Este é o ÚNICO dado com visualização parcial de dígitos (3 dígitos visíveis com máscara)
- * para permitir que o usuário confirme se o documento corresponde ao desejado.
+ * Exibe rigorosamente apenas 3 dígitos visíveis (ex: ***.796.***-**)
+ * permitindo ao cliente identificar o perfil sem liberar dados além do necessário antes de pagar.
  */
 export function formatCandidateTaxId(taxId?: string | null): { text: string; isPlaceholder: boolean } {
   if (isFieldUnknown(taxId)) {
     return { text: MENSAGEM_LIBERACAO, isPlaceholder: true };
   }
-  return { text: taxId!, isPlaceholder: false };
+  const s = String(taxId).trim();
+
+  // Encontra blocos de 3 dígitos na string (caso venha mascarada como ***.796.990-**)
+  const matches = s.match(/\d{3}/g);
+  if (matches && matches.length > 0) {
+    return { text: `***.${matches[0]}.***-**`, isPlaceholder: false };
+  }
+
+  const digits = s.replace(/\D/g, '');
+  if (digits.length >= 6) {
+    return { text: `***.${digits.slice(3, 6)}.***-**`, isPlaceholder: false };
+  } else if (digits.length >= 3) {
+    return { text: `***.${digits.slice(0, 3)}.***-**`, isPlaceholder: false };
+  }
+
+  return { text: '***.***.***-**', isPlaceholder: false };
 }
