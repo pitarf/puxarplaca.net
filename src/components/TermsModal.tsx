@@ -6,15 +6,17 @@ import { toast } from 'sonner';
 import { ShieldCheck, ArrowRight, Loader2, Scale } from 'lucide-react';
 
 interface TermsModalProps {
-  hasAcceptedTerms: boolean;
+  isOpen?: boolean;
+  hasAcceptedTerms?: boolean;
   onAccepted?: () => void;
 }
 
-export default function TermsModal({ hasAcceptedTerms, onAccepted }: TermsModalProps) {
-  const [isOpen, setIsOpen] = useState(!hasAcceptedTerms);
+export default function TermsModal({ isOpen, hasAcceptedTerms, onAccepted }: TermsModalProps) {
+  // Se isOpen for informado diretamente, ele comanda a visibilidade. Senão, usa !hasAcceptedTerms.
+  const isVisible = isOpen !== undefined ? isOpen : !hasAcceptedTerms;
   const [loading, setLoading] = useState(false);
 
-  if (!isOpen) return null;
+  if (!isVisible) return null;
 
   const handleAccept = async () => {
     setLoading(true);
@@ -24,7 +26,6 @@ export default function TermsModal({ hasAcceptedTerms, onAccepted }: TermsModalP
         toast.error(res.error);
       } else {
         toast.success('Termo de ciência e responsabilidade aceito.');
-        setIsOpen(false);
         if (onAccepted) {
           onAccepted();
         }

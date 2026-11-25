@@ -119,6 +119,8 @@ export async function GET(request: NextRequest) {
           passwordHash: null, // Sem senha
           balance: 0.0,
           hasSeenPromoPopup: false, // Força a exibição do popup logo após o cadastro
+          hasAcceptedTerms: true,
+          termsAcceptedAt: new Date(),
           trafficSource,
           referralCode,
           referredById,
