@@ -370,24 +370,6 @@ export async function performSmartSearch(
           };
         }
 
-        // Se for telefone e a V2 não encontrou candidatos, tenta fallback na V3 de Leads (Síncrono)
-        if (isPhone) {
-          try {
-            const v3UrlDirect = `${v3Url}/api/EnriquecimentoLead?TOKEN=${token}&CELULAR=${phone}`;
-            const v3Res = await axiosV3.get(v3UrlDirect);
-            if (v3Res.data?.retorno) {
-              const rawData = Array.isArray(v3Res.data.retorno) ? v3Res.data.retorno[0] : v3Res.data.retorno;
-              const data = transformDirectDataPlus(rawData, selectedModules);
-              return {
-                success: true,
-                data,
-                message: 'Consulta realizada com sucesso.',
-                provider: 'DirectData V3'
-              };
-            }
-          } catch {}
-        }
-
         if (filterRes?.success && filterRes?.numberOfPeople > 0) {
           return { 
             success: false, 
